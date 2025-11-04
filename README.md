@@ -1,10 +1,13 @@
-# django-sample-components
+
+# django-sample-components 🚀
 
 [![PyPI](https://img.shields.io/pypi/v/django-sample-components.svg)](https://pypi.org/project/django-sample-components/)
 
-> This project is a test for creating a Django library.
 
-## Installation
+> This project is a test for creating a Django library. 🧩
+
+
+## Installation 📦
 
 You can install the library using pip or poetry:
 
@@ -18,7 +21,8 @@ or
 poetry add django-sample-components
 ```
 
-## Configuration
+
+## Configuration ⚙️
 
 Add `django_sample_components` to the `INSTALLED_APPS` list in your `settings.py`:
 
@@ -29,7 +33,8 @@ INSTALLED_APPS = [
 ]
 ```
 
-## Migrations
+
+## Migrations 🗄️
 
 After installing and configuring, run the following commands:
 
@@ -38,9 +43,11 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-Done! Your Django library is installed and ready to use.
 
-## Running locally as a developer
+🎉 Done! Your Django library is installed and ready to use.
+
+
+## Running locally as a developer 🖥️
 
 To run the Django project locally during development, follow the steps below:
 
@@ -53,7 +60,7 @@ pip install -e ..
 poetry run ./manage.py runserver
 ```
 
-### Tests
+### Tests 🧪
 To run the tests, use the command below inside the `demo_project` directory:
 
 ```bash
@@ -61,7 +68,8 @@ poetry run ./manage.py test
 ```
 
 
-## Updating and publishing the library
+
+## Updating and publishing the library 🚢
 
 To update the version, build, and publish your library, use the commands below:
 
