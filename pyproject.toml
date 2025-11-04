@@ -17,11 +17,14 @@ dependencies = [
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.18.2"
 taskipy = "^1.14.1"
+ruff = "^0.14.3"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.taskipy.tasks]
+lint = { cmd = "ruff check .", help = "runs the linter" }
+lint-fix = { cmd = "ruff check . --fix", help = "runs the linter and tries to fix issues" }
 test = { cmd = "cd demo_project && python manage.py test", help = "runs the test suite" }
 run-demo = { cmd = "cd demo_project && python manage.py runserver", help = "runs the demo project server" }
