@@ -10,3 +10,8 @@ class Home(View):
             'url_github': settings.URL_GITHUB,
         }
         return render(request, 'django_sample_components/pages/home.html', context)
+
+
+class Greeting(View):
+    def get(self, request):
+        return render(request, 'django_sample_components/pages/greeting.html')
