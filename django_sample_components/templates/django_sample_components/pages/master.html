@@ -10,16 +10,13 @@
 </head>
 <body>
     <header>
-        <nav>
-            <a href="/">{% trans "Home" %}</a>
-            <!-- Add more navigation links here -->
-        </nav>
+        {% include "django_sample_components/partials/menu.html" %}
     </header>
     <main>
         {% block content %}{% endblock %}
     </main>
     <footer>
-        <p>&copy; {{ year|default:2025 }} My Django Project</p>
+        <p>&copy; {{ year|default:2025 }} My Django Sample Components</p>
     </footer>
     {% block extra_scripts %}{% endblock %}
 </body>
