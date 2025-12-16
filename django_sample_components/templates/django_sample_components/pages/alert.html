@@ -5,7 +5,16 @@
 {% block content %}
     <h1>Alert Page</h1>
 
-    {% shout bg_color="blue" %}
-        <i>grite</i>
-    {% endshout %}
+
+
+    {% simple_alert %}
+        Este é o conteúdo do <b>slot</b> que será injetado no template base!
+        O valor da variável '{{ user.username }}' também está aqui.
+    {% endsimple_alert %}
+
+
+    {% simple_alert %}
+        segundo alerta com outro conteúdo no slot!
+    {% endsimple_alert %}
+
 {% endblock %}

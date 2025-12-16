@@ -31,3 +31,56 @@ def greeting(name):
 @register.simple_block_tag
 def shout(content: SafeString, bg_color):
     return mark_safe(f"<h2 style='text-transform:uppercase; background-color:{bg_color}'>{content}!!!!</h2>")
+
+
+from django import template
+from django.template import NodeList, RequestContext
+from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
+
+register = template.Library()
+
+# ----------------------------------------------------
+# 1. Classe Node para Processar o Bloco
+# ----------------------------------------------------
+
+class SimpleAlertNode(template.Node):
+    """Processes the block between {% simple_alert %} and {% endsimple_alert %}."""
+
+    def __init__(self, nodelist: NodeList):
+        self.nodelist = nodelist
+
+    def render(self, context: RequestContext):
+        # 1. Renderiza o conteúdo (o "slot") dentro do bloco.
+        content = self.nodelist.render(context)
+
+        # 2. Prepara o contexto para o template base_alert.html
+        render_context = {
+            # Passa o conteúdo do slot como a variável 'content'
+            'content': mark_safe(content),
+        }
+
+        # 3. Renderiza o template final (o componente)
+        return render_to_string(
+            'django_sample_components/components/simple_alert.html',
+            render_context,
+            request=context.get('request')
+        )
+
+# ----------------------------------------------------
+# 2. Parser da Tag de Bloco
+# ----------------------------------------------------
+
+@register.tag(name='simple_alert')
+def simple_alert_tag(parser, token):
+    """
+    Analisa a tag de bloco {% simple_alert %} ... {% endsimple_alert %}.
+    """
+    # Garante que não há argumentos (apenas o nome da tag)
+    token.split_contents()
+
+    # Captura o conteúdo até a tag de fechamento
+    nodelist = parser.parse(('endsimple_alert',))
+    parser.delete_first_token()  # Remove a tag de fechamento
+
+    return SimpleAlertNode(nodelist)
