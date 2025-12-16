@@ -40,11 +40,7 @@ def simple_alert(
     prefix_text: str
 ):
     """
-    :param content: Content to display in the popup.
-    :param name_button: Name of the button to trigger the popup.
-    :param title: Title of the popup.
-    :param id_modal: ID of the modal.
-    :param use_layout_hiperlink: Whether to use layout hyperlink.
+    Renders a simple alert box with the given content and optional prefix text.
     """
     context = {
         'slot_content': content,
