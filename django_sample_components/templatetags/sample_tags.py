@@ -2,6 +2,7 @@
 import time
 
 from django import template
+from django.utils.safestring import mark_safe, SafeString
 
 # Create an instance of the template library
 register = template.Library()
@@ -25,3 +26,8 @@ def show_today_timestamp():
 def greeting(name):
     """Returns a personalized greeting."""
     return f"Hello, {name}!"
+
+
+@register.simple_block_tag
+def shout(content: SafeString, bg_color):
+    return mark_safe(f"<h2 style='text-transform:uppercase; background-color:{bg_color}'>{content}!!!!</h2>")

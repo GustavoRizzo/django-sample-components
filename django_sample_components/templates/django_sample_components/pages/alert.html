@@ -1,0 +1,11 @@
+{% extends 'django_sample_components/pages/master.html' %}
+
+{% load sample_tags %}
+
+{% block content %}
+    <h1>Alert Page</h1>
+
+    {% shout bg_color="blue" %}
+        <i>grite</i>
+    {% endshout %}
+{% endblock %}
