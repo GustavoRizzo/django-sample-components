@@ -52,12 +52,12 @@ class SimpleAlertNode(template.Node):
 
     def render(self, context: RequestContext):
         # 1. Renderiza o conteúdo (o "slot") dentro do bloco.
-        content = self.nodelist.render(context)
+        slot = self.nodelist.render(context)
 
         # 2. Prepara o contexto para o template base_alert.html
         render_context = {
-            # Passa o conteúdo do slot como a variável 'content'
-            'content': mark_safe(content),
+            # Passa o conteúdo do slot como a variável 'slot'
+            'slot': mark_safe(slot),
         }
 
         # 3. Renderiza o template final (o componente)
@@ -84,3 +84,22 @@ def simple_alert_tag(parser, token):
     parser.delete_first_token()  # Remove a tag de fechamento
 
     return SimpleAlertNode(nodelist)
+
+# from django import template
+
+# register = template.Library()
+
+# @register.tag(name="html_h1")
+# def h1_tag(parser: Parser, token: Token):
+#     nodelist = parser.parse(('endhtml_h1',))
+#     parser.delete_first_token()
+
+#     return HTML1Node(nodelist)
+
+# class HTML1Node(template.Node):
+#     def __init__(self, nodelist: NodeList):
+#         self.nodelist = nodelist
+
+#     def render(self, context: RequestContext):
+#         output = self.nodelist.render(context)
+#         return f"<h1>{output}</h1>"

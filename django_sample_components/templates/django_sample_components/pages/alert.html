@@ -17,4 +17,11 @@
         segundo alerta com outro conteúdo no slot!
     {% endsimple_alert %}
 
+    {% simple_alert %}
+        alerta pai
+        {% simple_alert %}
+            alerta filho
+        {% endsimple_alert %}
+    {% endsimple_alert %}
+
 {% endblock %}
