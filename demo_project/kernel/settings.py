@@ -124,3 +124,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 URL_PYPI = 'https://pypi.org/project/django-sample-components/'
 URL_GITHUB = 'https://github.com/GustavoRizzo/django-sample-components'
+
+
+# Static files  Produção
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Static files Desenvolvimento (local)
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
