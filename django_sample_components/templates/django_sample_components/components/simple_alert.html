@@ -1,3 +1,6 @@
 <b style="color: red; border: 1px solid red; padding: 5px; display: block;">
-    Alert: {{ slot }}
+    {% if prefix_text %}
+        {{ prefix_text }}:
+    {% endif %}
+    Alert: {{ slot_content }}
 </b>

@@ -24,4 +24,20 @@
         {% endsimple_alert %}
     {% endsimple_alert %}
 
+    {% simple_alert prefix_text="NOTE" %}
+        This is important information.
+    {% endsimple_alert %}
+
+    {% alret_v2 prefix_text="NOTE" %}
+        This is the content for <i>alret_v2</i>.
+    {% endalret_v2 %}
+
+
+    {% alret_v2 prefix_text="Pai" %}
+        Este é o alerta pai.
+        {% alret_v2 prefix_text="Filho" %}
+            Este é o alerta filho dentro do alerta pai.
+        {% endalret_v2 %}
+    {% endalret_v2 %}
+
 {% endblock %}
