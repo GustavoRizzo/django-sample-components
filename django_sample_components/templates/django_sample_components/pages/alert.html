@@ -5,39 +5,16 @@
 {% block content %}
     <h1>Alert Page</h1>
 
-
-
-    {% simple_alert %}
-        Este é o conteúdo do <b>slot</b> que será injetado no template base!
-        O valor da variável '{{ user.username }}' também está aqui.
+    {% simple_alert prefix_text="NOTE" %}
+        This is the content for <i>simple_alert</i>.
     {% endsimple_alert %}
 
 
-    {% simple_alert %}
-        segundo alerta com outro conteúdo no slot!
-    {% endsimple_alert %}
-
-    {% simple_alert %}
-        alerta pai
-        {% simple_alert %}
-            alerta filho
+    {% simple_alert prefix_text="Pai" %}
+        Este é o alerta pai.
+        {% simple_alert prefix_text="Filho" %}
+            Este é o alerta filho dentro do alerta pai.
         {% endsimple_alert %}
     {% endsimple_alert %}
-
-    {% simple_alert prefix_text="NOTE" %}
-        This is important information.
-    {% endsimple_alert %}
-
-    {% alret_v2 prefix_text="NOTE" %}
-        This is the content for <i>alret_v2</i>.
-    {% endalret_v2 %}
-
-
-    {% alret_v2 prefix_text="Pai" %}
-        Este é o alerta pai.
-        {% alret_v2 prefix_text="Filho" %}
-            Este é o alerta filho dentro do alerta pai.
-        {% endalret_v2 %}
-    {% endalret_v2 %}
 
 {% endblock %}
