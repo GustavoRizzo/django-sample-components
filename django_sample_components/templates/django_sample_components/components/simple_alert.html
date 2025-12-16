@@ -1,11 +1,13 @@
-<div class="alert alert-info alert-outline-info d-flex justify-content-between align-items-center" role="info">
-<div class="d-flex align-items-center">
-    <span class="alert-icon bg-info bg-opacity-10 p-2 rounded d-flex align-items-center justify-content-center">
-    <i class="fas fa-info-circle text-info"></i>
-    </span>
-    <p class="mb-0">{{ slot_content }}</p>
-</div>
-<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<div class="alert {{ alert_class }} alert-outline-{{ text_class }} d-flex justify-content-between align-items-center" role="alert">
+    <div class="d-flex align-items-center">
+        <span class="alert-icon bg-{{ text_class }} bg-opacity-10 p-2 rounded d-flex align-items-center justify-content-center">
+            <i class="{{ icon_class }} text-{{ text_class }}"></i>
+        </span>
+        <p class="mb-0">
+            {{ slot_content }}
+        </p>
+    </div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
   {% comment %} <style>
     .alert.alert-info .btn-close {
