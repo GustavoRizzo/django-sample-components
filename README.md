@@ -33,6 +33,18 @@ INSTALLED_APPS = [
 ]
 ```
 
+### Usage in Templates 📝
+
+Now you can use `sample_tags` in your templates as follows (*templates/explample.html*):
+
+```html
+{% load sample_tags %}
+
+<p>{% greeting "Bob" %}</p>
+<p>{% shout %}Let's go!{% endshout %}</p>
+```
+
+
 
 ## Migrations 🗄️
 
@@ -66,7 +78,6 @@ To run the tests, use the command below inside the `demo_project` directory:
 ```bash
 poetry run ./manage.py test
 ```
-
 
 
 ## Updating and publishing the library 🚢
