@@ -1,6 +1,6 @@
 [project]
 name = "django-sample-components"
-version = "0.1.0"
+version = "0.1.1"
 description = "A handy collection of reusable Django UI components, allowing me to share and integrate elements efficiently across various projects."
 authors = [
     {name = "Gustavo Rizzo S M de Albuquerque",email = "grizzo.albu@gmail.com"}
