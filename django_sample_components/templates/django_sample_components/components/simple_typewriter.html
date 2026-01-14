@@ -2,6 +2,7 @@
 
 {# Loading Static Files #}
 <link rel="stylesheet" href="{% static 'css/components/typewriter.css' %}">
+<script src="{% static 'js/components/typewriter.js' %}"></script>
 
 
 <div class="wrapper-typewriter" style="background-color: #1a1a1a; color: white; padding: 20px;">
@@ -11,61 +12,13 @@
     </h1>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const words = {{ words|safe }};
+            const typewriterEl = document.getElementById('typewriter');
 
-        // Typewriter Effect
-        (function() {
-        const words = {{ words|safe }};
-        const typewriterEl = document.getElementById('typewriter');
-        let wordIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        let isPaused = false;
-
-        const typeSpeed = 80;
-        const deleteSpeed = 50;
-        const pauseAfterWord = 2000;
-        const pauseBeforeDelete = 1500;
-
-        function type() {
-            const currentWord = words[wordIndex];
-
-            if (isPaused) {
-            return;
+            if (typewriterEl) {
+                initTypewriterWordsAnimation(typewriterEl, words);
             }
-
-            if (isDeleting) {
-            typewriterEl.textContent = currentWord.substring(0, charIndex - 1);
-            charIndex--;
-
-            if (charIndex === 0) {
-                isDeleting = false;
-                wordIndex = (wordIndex + 1) % words.length;
-                setTimeout(type, 400);
-                return;
-            }
-            } else {
-            typewriterEl.textContent = currentWord.substring(0, charIndex + 1);
-            charIndex++;
-
-            if (charIndex === currentWord.length) {
-                isPaused = true;
-                setTimeout(() => {
-                isPaused = false;
-                isDeleting = true;
-                type();
-                }, pauseBeforeDelete);
-                return;
-            }
-            }
-
-            const speed = isDeleting ? deleteSpeed : typeSpeed;
-            setTimeout(type, speed);
-        }
-
-        // Start typewriter on page load
-        if (typewriterEl) {
-            setTimeout(type, 500);
-        }
-        })();
+        });
     </script>
 </div>
