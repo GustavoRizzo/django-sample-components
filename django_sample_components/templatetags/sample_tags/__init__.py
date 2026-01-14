@@ -4,12 +4,14 @@ from .greeting import greeting
 from .shout import shout
 from .show_today_timestamp import show_today_timestamp
 from .simple_alert import simple_alert
+from .simple_typewriter import simple_typewriter
 
 register = template.Library()
 
 # 1. simple_tags
 register.simple_tag(show_today_timestamp)
 register.simple_tag(greeting)
+register.simple_tag(simple_typewriter)
 
 # 2. simple_block_tags
 register.simple_block_tag(shout)
