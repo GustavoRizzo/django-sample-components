@@ -5,8 +5,8 @@
 {% block content %}
     <h1>Typewriter</h1>
 
-    <p>cool text effect simulation</p>
-
-    {% simple_typewriter words=words %}
+    <div style="display: flex; gap: 0.2rem;">
+        Check this cool text effect:{% simple_typewriter words=words %}
+    </div>
 
 {% endblock %}

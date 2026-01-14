@@ -1,15 +1,13 @@
 {% load static %}
+<div class="wrapper-typewriter">
 
 {# Loading Static Files #}
 <link rel="stylesheet" href="{% static 'css/components/typewriter.css' %}">
 <script src="{% static 'js/components/typewriter.js' %}"></script>
 
 
-<div class="wrapper-typewriter" style="background-color: #1a1a1a; color: white; padding: 20px;">
-    <h1 class="hero-title">
-        Complete Device Specs API for<br>
-        <span class="hero-gradient"><span id="typewriter"></span><span class="typewriter-cursor">|</span></span>
-    </h1>
+
+    <span id="typewriter"></span><span class="typewriter-cursor">|</span></span>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
