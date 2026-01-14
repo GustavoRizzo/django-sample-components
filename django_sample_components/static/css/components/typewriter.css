@@ -1,0 +1,31 @@
+:root {
+--gradient-primary: linear-gradient(135deg, #5DBEA3 0%, #30BE93 100%);
+}
+
+/* Typewriter Effect */
+#typewriter {
+display: inline;
+}
+
+.typewriter-cursor {
+display: inline-block;
+background: var(--gradient-primary);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+animation: cursorBlink 0.8s ease-in-out infinite;
+margin-left: 2px;
+font-weight: 300;
+}
+
+@keyframes cursorBlink {
+0%, 45% {
+    opacity: 1;
+}
+50%, 95% {
+    opacity: 0;
+}
+100% {
+    opacity: 1;
+}
+}
