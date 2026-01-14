@@ -43,7 +43,7 @@
 
         // Typewriter Effect
         (function() {
-        const words = ['Smartphones', 'Tablets', 'Smartwatches', 'Laptops'];
+        const words = {{ words|safe }};
         const typewriterEl = document.getElementById('typewriter');
         let wordIndex = 0;
         let charIndex = 0;

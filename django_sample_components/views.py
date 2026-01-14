@@ -24,4 +24,10 @@ class Alert(View):
 
 class Typewriter(View):
     def get(self, request):
-        return render(request, 'django_sample_components/pages/typewriter.html')
+        words = [
+            "Hello, World!",
+            "Welcome to Django Sample Components.",
+            "Enjoy the typewriter effect!",
+            "Customize it with your own words.",
+        ]
+        return render(request, 'django_sample_components/pages/typewriter.html', {"words": words})
