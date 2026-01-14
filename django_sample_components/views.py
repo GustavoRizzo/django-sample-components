@@ -20,3 +20,8 @@ class Greeting(View):
 class Alert(View):
     def get(self, request):
         return render(request, 'django_sample_components/pages/alert.html')
+
+
+class Typewriter(View):
+    def get(self, request):
+        return render(request, 'django_sample_components/pages/typewriter.html')
