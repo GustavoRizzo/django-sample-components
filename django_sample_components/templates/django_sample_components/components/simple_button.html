@@ -1,0 +1,33 @@
+{% if not hidden %}
+    <a
+        href="{{ href }}"
+        class="btn btn-{{ btn_type }}{% if btn_size %} btn-{{ btn_size }}{% endif %}{% if extra_classes %} {{ extra_classes }}{% endif %}{% if nowrap %} text-nowrap{% endif %}{% if disabled %} disabled{% endif %}"
+        {% if tooltip %}
+            data-bs-toggle="tooltip"
+            data-bs-title="{{ tooltip }}"
+            data-bs-placement="{{ kwargs.tooltip_placement|default:'top' }}"
+        {% endif %}
+        {% for key, value in kwargs.items %}
+            {% if key != 'tooltip_placement' and value %}
+                {{ key }}="{{ value }}"
+            {% endif %}
+        {% endfor %}
+        {% if disabled %}
+            aria-disabled="true" tabindex="-1"
+        {% endif %}
+        {% if new_tab %}
+            target="_blank" rel="noopener noreferrer"
+        {% endif %}
+        aria-label="{{ aria_label|default:text }}"
+    >
+        {% if icon_before %}
+            <i class="{{ icon_before }}"></i>
+        {% endif %}
+
+        {{ text }}
+
+        {% if icon_after %}
+            <i class="{{ icon_after }}"></i>
+        {% endif %}
+    </a>
+{% endif %}
