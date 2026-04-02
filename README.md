@@ -68,7 +68,7 @@ git clone https://github.com/GustavoRizzo/django-sample-components.git
 cd django-sample-components
 poetry install
 cd demo_project
-pip install -e ..
+python -m pip install -e ..
 poetry run ./manage.py runserver
 ```
 

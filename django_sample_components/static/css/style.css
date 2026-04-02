@@ -6,7 +6,7 @@
     padding:  11px 15px;
 }
 
-.simple-alert-icon{
+.alert-icon {
     padding: 0.6rem;
     border-radius: 0.375rem;
     background-color: var(--bs-alert-bg);
