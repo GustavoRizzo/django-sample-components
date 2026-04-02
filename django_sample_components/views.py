@@ -31,3 +31,8 @@ class Typewriter(View):
             "Customize it with your own words.",
         ]
         return render(request, 'django_sample_components/pages/typewriter.html', {"words": words})
+
+
+class Button(View):
+    def get(self, request):
+        return render(request, 'django_sample_components/pages/button.html')

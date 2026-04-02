@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import Alert, Greeting, Home, Typewriter
+from .views import Alert, Button, Greeting, Home, Typewriter
 
 app_name = 'django_sample_components'
 
@@ -9,4 +9,5 @@ urlpatterns = [
     path('greeting/', Greeting.as_view(), name='greeting'),
     path('alert/', Alert.as_view(), name='alert'),
     path('typewriter/', Typewriter.as_view(), name='typewriter'),
+    path('button/', Button.as_view(), name='button'),
 ]

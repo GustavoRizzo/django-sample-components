@@ -1,0 +1,81 @@
+{% extends 'django_sample_components/pages/master.html' %}
+
+{% load sample_tags %}
+
+{% block content %}
+    <h1>Button Page</h1>
+
+    <h3>Basic Buttons</h3>
+    <div class="mb-4">
+        {% simple_button "Click here" href="/home" %}
+        {% simple_button "Save" href="/save" tooltip="Save changes" btn_type="success" %}
+        {% simple_button "Outline" href="/outline" btn_type="outline-primary" %}
+        {% simple_button "Disabled" href="#" disabled=True %}
+    </div>
+
+    <h3>Buttons with Icons</h3>
+    <div class="mb-4">
+        {% simple_button "User" href="/user" btn_type="outline-secondary" icon_before="tf-icons ti ti-user" tooltip="User" %}
+        {% simple_button "User" href="/user" btn_type="outline-secondary" icon_after="tf-icons ti ti-user" tooltip="User" %}
+        {% simple_button "Download" href="/download" btn_type="outline-primary" icon_before="tf-icons ti ti-download" %}
+        {% simple_button "Sync" href="/sync" btn_type="outline-info" icon_after="tf-icons ti ti-reload" %}
+        {% simple_button "Save" href="/save" btn_type="success" icon_after="tf-icons ti ti-save" %}
+        {% simple_button "Delete" href="/delete" btn_type="danger" icon_before="tf-icons ti ti-trash" %}
+        {% simple_button "" href="/settings" btn_type="outline-secondary" icon_before="tf-icons ti ti-settings" tooltip="Settings" %}
+    </div>
+
+    <h3>Buttons with Custom Tooltip</h3>
+    <div class="mb-4">
+        {% simple_button "Information" href="#" tooltip="More details" tooltip_placement="right" %}
+        {% simple_button "Tooltip Bottom" href="#" btn_type="warning" tooltip="This appears at the bottom" tooltip_placement="bottom" %}
+        {% simple_button "help me" href="/help" btn_type="outline-info" icon_before="bi bi-question-circle" tooltip="Get help" %}
+    </div>
+
+    <h3>Color Variations</h3>
+    <div class="mb-4">
+        {% simple_button "Primary" href="#" btn_type="primary" %}
+        {% simple_button "Secondary" href="#" btn_type="secondary" %}
+        {% simple_button "Success" href="#" btn_type="success" %}
+        {% simple_button "Danger" href="#" btn_type="danger" %}
+        {% simple_button "Warning" href="#" btn_type="warning" %}
+        {% simple_button "Info" href="#" btn_type="info" %}
+        {% simple_button "Light" href="#" btn_type="light" %}
+        {% simple_button "Dark" href="#" btn_type="dark" %}
+    </div>
+
+    <h3>Outline Buttons</h3>
+    <div class="mb-4">
+        {% simple_button "Primary" href="#" btn_type="outline-primary" %}
+        {% simple_button "Secondary" href="#" btn_type="outline-secondary" %}
+        {% simple_button "Success" href="#" btn_type="outline-success" %}
+        {% simple_button "Danger" href="#" btn_type="outline-danger" %}
+        {% simple_button "Warning" href="#" btn_type="outline-warning" %}
+        {% simple_button "Info" href="#" btn_type="outline-info" %}
+        {% simple_button "Dark" href="#" btn_type="outline-dark" %}
+    </div>
+
+    <h3>Sizes</h3>
+    <div class="mb-4">
+        {% simple_button "Small" href="#" btn_size="sm" %}
+        {% simple_button "Default" href="#" %}
+        {% simple_button "Large" href="#" btn_size="lg" %}
+    </div>
+
+    <hr/>
+
+    <h3>Example Code</h3>
+    <pre><code>
+{# Basic button #}
+{% verbatim %}{% simple_button "Click here" href="/home" %}{% endverbatim %}
+
+{# Button with tooltip #}
+{% verbatim %}{% simple_button "Save" href="/save" tooltip="Save changes" btn_type="success" %}{% endverbatim %}
+
+{# Button with icon only #}
+{% verbatim %}{% simple_button "" href="/download" btn_type="outline-secondary" icon_before="tf-icons ti ti-download" tooltip="Download file" %}{% endverbatim %}
+
+{# Disabled button #}
+{% verbatim %}{% simple_button "Disabled" href="#" disabled=True %}{% endverbatim %}
+    </code></pre>
+
+{% endblock %}
