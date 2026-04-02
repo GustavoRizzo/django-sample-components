@@ -2,8 +2,19 @@
 
 {% load sample_tags %}
 
+{# Disclaimer: simple_popup depends on Bootstrap JS (bootstrap.bundle.min.js) to function. #}
+{# The modal open/close behavior is handled entirely by Bootstrap's JavaScript plugin.     #}
+{# Make sure bootstrap.bundle.min.js is loaded before using this component.               #}
+
 {% block content %}
     <h1>Popup Page</h1>
+
+    {% simple_alert type="warning" %}
+        <strong>Dependency notice:</strong> this component requires
+        <a href="https://getbootstrap.com/docs/5.3/components/modal/" target="_blank" rel="noopener noreferrer">Bootstrap JS</a>
+        (<code>bootstrap.bundle.min.js</code>) to open and close modals.
+        Make sure it is loaded in your project before using <code>simple_popup</code>.
+    {% endsimple_alert %}
 
     <h3>Default Popup</h3>
     <div class="mb-4">
