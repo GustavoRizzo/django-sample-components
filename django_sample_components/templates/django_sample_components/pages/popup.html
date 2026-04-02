@@ -1,0 +1,50 @@
+{% extends 'django_sample_components/pages/master.html' %}
+
+{% load sample_tags %}
+
+{% block content %}
+    <h1>Popup Page</h1>
+
+    <h3>Default Popup</h3>
+    <div class="mb-4">
+        {% simple_popup name_button="Open Popup" %}
+            <p>This is the default popup content.</p>
+        {% endsimple_popup %}
+    </div>
+
+    <h3>Custom Title</h3>
+    <div class="mb-4">
+        {% simple_popup name_button="Open" title="Custom Title" %}
+            <p>This popup has a custom title.</p>
+        {% endsimple_popup %}
+    </div>
+
+    <h3>Hyperlink Style</h3>
+    <div class="mb-4">
+        {% simple_popup name_button="Click here" title="Hyperlink Popup" use_layout_hiperlink=True %}
+            <p>Triggered by a hyperlink-styled element instead of a button.</p>
+        {% endsimple_popup %}
+    </div>
+
+    <h3>Custom Button Class</h3>
+    <div class="mb-4">
+        {% simple_popup name_button="Danger" title="Warning" class_button="btn btn-danger" %}
+            <p>This popup uses a custom danger button.</p>
+        {% endsimple_popup %}
+    </div>
+
+    <h3>Rich Content</h3>
+    <div class="mb-4">
+        {% simple_popup name_button="Show Details" title="Details" %}
+            <ul>
+                <li>Item one</li>
+                <li>Item two</li>
+                <li>Item three</li>
+            </ul>
+            {% simple_alert type="info" %}
+                Nested alert inside popup.
+            {% endsimple_alert %}
+        {% endsimple_popup %}
+    </div>
+
+{% endblock %}

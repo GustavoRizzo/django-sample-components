@@ -5,6 +5,7 @@ from .shout import shout
 from .show_today_timestamp import show_today_timestamp
 from .simple_alert import simple_alert
 from .simple_button import simple_button
+from .simple_popup import simple_popup
 from .simple_typewriter import simple_typewriter
 
 register = template.Library()
@@ -18,3 +19,4 @@ register.simple_tag(simple_button)
 # 2. simple_block_tags
 register.simple_block_tag(shout)
 register.simple_block_tag(simple_alert)
+register.simple_block_tag(simple_popup)

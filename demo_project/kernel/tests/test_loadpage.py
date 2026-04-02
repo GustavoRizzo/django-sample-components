@@ -9,6 +9,7 @@ class HomePageTests(SimpleTestCase):
     home_page_url = reverse(f"{app_name}:home")
     greeting_page_url = reverse(f"{app_name}:greeting")
     alert_page_url = reverse(f"{app_name}:alert")
+    popup_page_url = reverse(f"{app_name}:popup")
 
     def test_home_page_status_code(self):
         response = self.client.get(self.home_page_url)
@@ -20,4 +21,8 @@ class HomePageTests(SimpleTestCase):
 
     def test_alert_page_status_code(self):
         response = self.client.get(self.alert_page_url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_popup_page_status_code(self):
+        response = self.client.get(self.popup_page_url)
         self.assertEqual(response.status_code, 200)

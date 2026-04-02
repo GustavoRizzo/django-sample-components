@@ -36,3 +36,8 @@ class Typewriter(View):
 class Button(View):
     def get(self, request):
         return render(request, 'django_sample_components/pages/button.html')
+
+
+class Popup(View):
+    def get(self, request):
+        return render(request, 'django_sample_components/pages/popup.html')
