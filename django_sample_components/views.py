@@ -41,3 +41,29 @@ class Button(View):
 class Popup(View):
     def get(self, request):
         return render(request, 'django_sample_components/pages/popup.html')
+
+
+class Counter(View):
+    def get(self, request):
+        return render(request, 'django_sample_components/pages/counter.html')
+
+
+class CounterAPI(View):
+    def post(self, request):
+        current = int(request.POST.get('current_value', 0))
+        action = request.POST.get('action', 'add')
+        step = int(request.POST.get('step', 1))
+        raw_min = request.POST.get('min_value')
+        raw_max = request.POST.get('max_value')
+        min_value = int(raw_min) if raw_min not in (None, '', 'None') else None
+        max_value = int(raw_max) if raw_max not in (None, '', 'None') else None
+
+        new_value = current + (step if action == 'add' else -step)
+
+        if min_value is not None:
+            new_value = max(new_value, min_value)
+        if max_value is not None:
+            new_value = min(new_value, max_value)
+
+        context = {'value': new_value}
+        return render(request, 'django_sample_components/partials/async_counter_value.html', context)

@@ -1,0 +1,12 @@
+{% extends "django_sample_components/pages/master.html" %}
+
+{% block extra_scripts %}
+    {# HTMX library for async interactions #}
+    <script src="https://unpkg.com/htmx.org@2.0.8"></script>
+    <script>
+        document.body.addEventListener('htmx:configRequest', function (evt) {
+            evt.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+        });
+    </script>
+    {% block async_extra_scripts %}{% endblock %}
+{% endblock %}
