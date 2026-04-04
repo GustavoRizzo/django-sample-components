@@ -68,10 +68,10 @@ class AsyncCounterPageTests(SimpleTestCase):
         self.assertIn(b'X-CSRFToken', response.content)
 
 
-class AsyncCounterAPITests(SimpleTestCase):
-    """Test the counter API endpoint (/api/counter/)."""
+class AsyncCounterPartialTests(SimpleTestCase):
+    """Test the counter partial endpoint (/async/partial/counter/)."""
 
-    url = reverse('django_sample_components:counter_api')
+    url = reverse('django_sample_components:counter_partial')
 
     def _post(self, **kwargs):
         return self.client.post(self.url, kwargs)
