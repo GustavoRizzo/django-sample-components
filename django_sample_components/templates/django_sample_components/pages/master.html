@@ -35,6 +35,8 @@
         <p>&copy; {{ year|default:2025 }} My Django Sample Components</p>
     </footer>
 
+    {% block extra_styles %}{% endblock %}
+
     {% block extra_scripts %}{% endblock %}
 
     {% block third_party_head_js %}
