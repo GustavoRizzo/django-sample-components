@@ -76,11 +76,16 @@ Async components are intentionally kept separate from static components to allow
 | URL patterns | `urls.py` | `async_urls.py` (mounted at `/async/`) |
 | Tests | `kernel/tests/test_*.py` | `kernel/tests/async/test_*.py` |
 
-**Async URL pattern:** Partial endpoints (HTMX responses) live under `/async/partial/<component>/`. Demo pages live under `/async/<component>/`.
+**Async URL pattern:** Each async component exposes a single URL (e.g. `/async/counter/`) that handles both `GET` (full demo page) and `POST` (HTMX partial response) in the same view. Use `request.htmx` to branch between the two responses — return `HttpResponseBadRequest()` if a POST arrives without the `HX-Request` header.
 
 **Adding a new async component:** follow the same steps as static components, but place everything in the async equivalents: `async_tags/`, `async_urls.py`, and `kernel/tests/async/`.
 
-**HTMX:** loaded via CDN (`https://unpkg.com/htmx.org@1.9.10`) in each async demo page.
+**django-htmx:** the project uses [`django-htmx`](https://github.com/adamchainz/django-htmx) to integrate HTMX with Django. Key features used:
+
+- `HtmxMiddleware` — adds `request.htmx` to every request. `bool(request.htmx)` is `True` when the request carries the `HX-Request` header.
+- `{% htmx_script %}` — renders a `<script>` tag pointing to the htmx.js bundled with the package (no CDN dependency). The htmx version is determined by the installed `django-htmx` version.
+- `{% django_htmx_script %}` — renders the Django↔HTMX integration script.
+- CSRF is handled declaratively via `hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'` on the `<body>` tag in `master_async.html` — no JavaScript event listener needed.
 
 ## Available Tags
 
@@ -110,6 +115,7 @@ poetry publish
 - Line length: 120 characters (ruff)
 - Active ruff rules: F, E, W, I, N, UP, B
 - Type checking: mypy
+- **Language: all code, comments, docstrings, and template text must be written in English.**
 
 ## Template Style
 

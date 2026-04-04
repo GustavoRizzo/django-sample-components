@@ -128,7 +128,7 @@ URL_PYPI = 'https://pypi.org/project/django-sample-components/'
 URL_GITHUB = 'https://github.com/GustavoRizzo/django-sample-components'
 
 
-# Static files  Produção
+# Static files — production
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
