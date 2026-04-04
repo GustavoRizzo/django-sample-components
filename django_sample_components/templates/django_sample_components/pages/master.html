@@ -24,7 +24,7 @@
 
     {% block extra_head %}{% endblock %}
 </head>
-<body>
+<body {% block body_attrs %}{% endblock %}>
     <header>
         {% include "django_sample_components/partials/menu.html" %}
     </header>

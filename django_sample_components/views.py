@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.shortcuts import render
+from django.http import HttpResponseBadRequest
 from django.views import View
 
 
@@ -47,9 +48,9 @@ class Counter(View):
     def get(self, request):
         return render(request, 'django_sample_components/pages/counter.html')
 
-
-class CounterAPI(View):
     def post(self, request):
+        if not request.htmx:
+            return HttpResponseBadRequest()
         current = int(request.POST.get('current_value', 0))
         action = request.POST.get('action', 'add')
         step = int(request.POST.get('step', 1))

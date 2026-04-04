@@ -1,12 +1,11 @@
 {% extends "django_sample_components/pages/master.html" %}
+{% load django_htmx %}
+
+{% block body_attrs %}hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'{% endblock %}
 
 {% block extra_scripts %}
     {# HTMX library for async interactions #}
-    <script src="https://unpkg.com/htmx.org@2.0.8"></script>
-    <script>
-        document.body.addEventListener('htmx:configRequest', function (evt) {
-            evt.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
-        });
-    </script>
+    {% htmx_script %}
+    {% django_htmx_script %}
     {% block async_extra_scripts %}{% endblock %}
 {% endblock %}

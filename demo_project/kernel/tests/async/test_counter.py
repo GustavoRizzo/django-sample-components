@@ -55,26 +55,26 @@ class AsyncCounterPageTests(SimpleTestCase):
 
     def test_page_contains_htmx(self):
         response = self.client.get(self.url)
-        self.assertIn(b'htmx.org', response.content)
+        self.assertIn(b'htmx.min.js', response.content)
 
     def test_page_contains_component(self):
         response = self.client.get(self.url)
         self.assertIn(b'async-counter-', response.content)
 
     def test_page_contains_csrf_listener(self):
-        """Page must set X-CSRFToken on HTMX requests."""
+        """Page must set X-CSRFToken on HTMX requests via hx-headers on the body."""
         response = self.client.get(self.url)
-        self.assertIn(b'htmx:configRequest', response.content)
+        self.assertIn(b'hx-headers', response.content)
         self.assertIn(b'X-CSRFToken', response.content)
 
 
 class AsyncCounterPartialTests(SimpleTestCase):
-    """Test the counter partial endpoint (/async/partial/counter/)."""
+    """Test the counter POST endpoint (/async/counter/)."""
 
-    url = reverse('django_sample_components:counter_partial')
+    url = reverse('django_sample_components:counter')
 
     def _post(self, **kwargs):
-        return self.client.post(self.url, kwargs)
+        return self.client.post(self.url, kwargs, HTTP_HX_REQUEST='true')
 
     # --- Basic operations ---
 
