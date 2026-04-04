@@ -410,6 +410,3 @@ ansible/hosts.*
 
 # Exclude database files
 data/
-
-# Claude Code
-CLAUDE.md
