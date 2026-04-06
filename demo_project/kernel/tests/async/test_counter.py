@@ -1,4 +1,4 @@
-from django.template import Template, Context
+from django.template import Context, Template
 from django.test import SimpleTestCase
 from django.urls import reverse
 
@@ -69,9 +69,9 @@ class AsyncCounterPageTests(SimpleTestCase):
 
 
 class AsyncCounterPartialTests(SimpleTestCase):
-    """Test the counter POST endpoint (/async/counter/)."""
+    """Test the counter POST endpoint (/async/counter/component/)."""
 
-    url = reverse('django_sample_components:counter')
+    url = reverse('django_sample_components:counter_component')
 
     def _post(self, **kwargs):
         return self.client.post(self.url, kwargs, HTTP_HX_REQUEST='true')
@@ -81,6 +81,8 @@ class AsyncCounterPartialTests(SimpleTestCase):
     def test_increment(self):
         response = self._post(action='add', current_value='0', step='1')
         self.assertEqual(response.status_code, 200)
+        self.assertIn(b'async-counter-', response.content)
+        self.assertIn(b'counter-display', response.content)
         self.assertIn(b'1', response.content)
 
     def test_decrement(self):

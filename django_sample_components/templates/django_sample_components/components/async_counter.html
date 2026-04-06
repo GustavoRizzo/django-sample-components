@@ -3,9 +3,10 @@
     <div class="d-flex gap-2 align-items-center">
         <button
             class="btn btn-sm btn-outline-primary"
-            hx-post="{% url 'django_sample_components:counter' %}"
-            hx-target="#{{ id_counter }} .counter-display"
-            hx-vals='js:{"action": "subtract", "current_value": document.querySelector("#{{ id_counter }} .counter-display").textContent.trim(), "step": {{ step }}, "min_value": "{{ min_value }}", "max_value": "{{ max_value }}"}'
+            hx-post="{% url 'django_sample_components:counter_component' %}"
+            hx-target="#{{ id_counter }}"
+            hx-swap="outerHTML"
+            hx-vals='js:{"id_counter": "{{ id_counter }}", "action": "subtract", "current_value": document.querySelector("#{{ id_counter }} .counter-display").textContent.trim(), "step": {{ step }}, "min_value": "{{ min_value }}", "max_value": "{{ max_value }}"}'
         >
             −
         </button>
@@ -14,9 +15,10 @@
 
         <button
             class="btn btn-sm btn-outline-primary"
-            hx-post="{% url 'django_sample_components:counter' %}"
-            hx-target="#{{ id_counter }} .counter-display"
-            hx-vals='js:{"action": "add", "current_value": document.querySelector("#{{ id_counter }} .counter-display").textContent.trim(), "step": {{ step }}, "min_value": "{{ min_value }}", "max_value": "{{ max_value }}"}'
+            hx-post="{% url 'django_sample_components:counter_component' %}"
+            hx-target="#{{ id_counter }}"
+            hx-swap="outerHTML"
+            hx-vals='js:{"id_counter": "{{ id_counter }}", "action": "add", "current_value": document.querySelector("#{{ id_counter }} .counter-display").textContent.trim(), "step": {{ step }}, "min_value": "{{ min_value }}", "max_value": "{{ max_value }}"}'
         >
             +
         </button>

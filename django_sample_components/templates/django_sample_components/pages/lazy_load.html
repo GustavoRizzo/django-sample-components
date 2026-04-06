@@ -54,6 +54,12 @@
             {% async_lazy_load placeholder="No artificial delay (delay_ms=0)." delay_ms=0 %}
         </section>
 
+        <section class="mb-5">
+            <h4>8. Lazy load full counter component (2s)</h4>
+            <p class="text-muted">Loads the full counter component (+/- buttons and value) after a forced 2000ms delay.</p>
+            {% async_lazy_load url="/async/counter/component/?initial_value=10&step=2&min_value=0&max_value=20" placeholder="Loading full counter component (2 seconds)..." delay_ms=2000 %}
+        </section>
+
         <div style="height: 20vh;"></div>
     </div>
 {% endblock %}
