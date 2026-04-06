@@ -1,0 +1,14 @@
+.async-counter {
+    padding: 1.5rem;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    background-color: #f8f9fa;
+    display: inline-block;
+}
+
+.counter-display {
+    font-family: 'Courier New', monospace;
+    font-size: 1.5rem;
+    font-weight: bold;
+    min-width: 3rem;
+}

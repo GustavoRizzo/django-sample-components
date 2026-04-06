@@ -1,4 +1,6 @@
 {# Async counter component using HTMX #}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/components/async_counter.css' %}">
 <div class="async-counter" id="{{ id_counter }}">
     <div class="d-flex gap-2 align-items-center">
         <button
