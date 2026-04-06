@@ -1,15 +1,15 @@
 from django.urls import include, path
 
-from .views import Alert, Button, Greeting, Home, Popup, Typewriter
+from .views import AlertPage, ButtonPage, GreetingPage, HomePage, PopupPage, TypewriterPage
 
 app_name = 'django_sample_components'
 
 urlpatterns = [
-    path('', Home.as_view(), name='home'),
-    path('greeting/', Greeting.as_view(), name='greeting'),
-    path('alert/', Alert.as_view(), name='alert'),
-    path('typewriter/', Typewriter.as_view(), name='typewriter'),
-    path('button/', Button.as_view(), name='button'),
-    path('popup/', Popup.as_view(), name='popup'),
+    path('', HomePage.as_view(), name='home'),
+    path('greeting/', GreetingPage.as_view(), name='greeting'),
+    path('alert/', AlertPage.as_view(), name='alert'),
+    path('typewriter/', TypewriterPage.as_view(), name='typewriter'),
+    path('button/', ButtonPage.as_view(), name='button'),
+    path('popup/', PopupPage.as_view(), name='popup'),
     path('async/', include('django_sample_components.async_urls')),
 ]

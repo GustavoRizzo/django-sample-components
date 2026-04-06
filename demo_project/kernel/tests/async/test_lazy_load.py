@@ -68,7 +68,7 @@ class AsyncLazyLoadPartialTests(SimpleTestCase):
         self.assertIn(b"Lazy content loaded!", response.content)
         self.assertIn(b"Loaded at:", response.content)
 
-    @patch("django_sample_components.views.time.sleep")
+    @patch("django_sample_components.views.pages.time.sleep")
     def test_lazy_load_partial_with_delay(self, sleep_mock):
         response = self.client.get(self.url, {"delay_ms": "250"}, HTTP_HX_REQUEST="true")
 
@@ -89,7 +89,7 @@ class AsyncLazyLoadExternalTests(SimpleTestCase):
         response = self.client.get(self.url, {"target_url": "javascript:alert(1)"}, HTTP_HX_REQUEST="true")
         self.assertEqual(response.status_code, 400)
 
-    @patch("django_sample_components.views.urlopen")
+    @patch("django_sample_components.views.component.lazy_load_external_component.urlopen")
     def test_external_proxy_fetches_title(self, urlopen_mock):
         mocked_response = MagicMock()
         mocked_response.read.return_value = b"<html><head><title>Google</title></head><body>ok</body></html>"
