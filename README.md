@@ -1,92 +1,168 @@
-
-# django-sample-components 🚀
+# django-sample-components
 
 [![PyPI](https://img.shields.io/pypi/v/django-sample-components.svg)](https://pypi.org/project/django-sample-components/)
 
+A reusable Django library that provides ready-to-use UI components — template tags, templates, and static assets — for use across Django projects.
 
-> This project is a test for creating a Django library. 🧩
+Components are split into two groups:
+
+- **Static** (`{% load sample_tags %}`) — pure server-side rendered components, no JavaScript dependencies beyond Bootstrap.
+- **Async** (`{% load async_tags %}`) — interactive components powered by [HTMX](https://htmx.org/) that update without page reloads.
 
 
-## Installation 📦
-
-You can install the library using pip or poetry:
+## Installation
 
 ```bash
 pip install django-sample-components
-```
-
-or
-
-```bash
+# or
 poetry add django-sample-components
 ```
 
-
-## Configuration ⚙️
-
-Add `django_sample_components` to the `INSTALLED_APPS` list in your `settings.py`:
+Add to `INSTALLED_APPS` in `settings.py`:
 
 ```python
 INSTALLED_APPS = [
-    # ... other apps ...
+    # ...
     'django_sample_components',
+    'django_htmx',   # required for async components
 ]
 ```
 
-### Usage in Templates 📝
+Add `HtmxMiddleware` to `MIDDLEWARE` (required for async components):
 
-Now you can use `sample_tags` in your templates as follows (*templates/explample.html*):
-
-```html
-{% load sample_tags %}
-
-<p>{% greeting "Bob" %}</p>
-<p>{% shout %}Let's go!{% endshout %}</p>
+```python
+MIDDLEWARE = [
+    # ...
+    'django_htmx.middleware.HtmxMiddleware',
+]
 ```
 
+Include the library URLs in your project's `urls.py`:
 
+```python
+from django.urls import include, path
 
-## Migrations 🗄️
+urlpatterns = [
+    path('components/', include('django_sample_components.urls')),
+]
+```
 
-After installing and configuring, run the following commands:
+Collect static files:
 
 ```bash
-python manage.py makemigrations
-python manage.py migrate
+python manage.py collectstatic
 ```
 
 
-🎉 Done! Your Django library is installed and ready to use.
+## Static Components
+
+Load with `{% load sample_tags %}` in any template. No HTMX or JavaScript required (except Bootstrap JS for `simple_popup`).
+
+| Tag | Type | Quick usage |
+|-----|------|-------------|
+| [`greeting`](docs/static/greeting.md) | simple_tag | `{% greeting "Alice" %}` |
+| [`show_today_timestamp`](docs/static/show_today_timestamp.md) | simple_tag | `{% show_today_timestamp %}` |
+| [`simple_typewriter`](docs/static/simple_typewriter.md) | simple_tag | `{% simple_typewriter words %}` |
+| [`simple_button`](docs/static/simple_button.md) | simple_tag | `{% simple_button "Label" href="/url" btn_type="primary" %}` |
+| [`shout`](docs/static/shout.md) | block_tag | `{% shout %}...{% endshout %}` |
+| [`simple_alert`](docs/static/simple_alert.md) | block_tag | `{% simple_alert type="success" %}...{% endsimple_alert %}` |
+| [`simple_popup`](docs/static/simple_popup.md) | block_tag | `{% simple_popup name_button="Open" title="Title" %}...{% endsimple_popup %}` |
+
+### Quick example
+
+```django
+{% load sample_tags %}
+
+{% simple_alert type="success" %}
+    Your changes have been saved.
+{% endsimple_alert %}
+
+{% simple_popup name_button="Open" title="Confirm" size="sm" %}
+    <p>Are you sure?</p>
+{% endsimple_popup %}
+
+{% simple_button "Download" href="/files/report.pdf" icon_before="fa fa-download" %}
+```
 
 
-## Running locally as a developer 🖥️
+## Async Components (HTMX)
 
-To run the Django project locally during development, follow the steps below:
+Load with `{% load async_tags %}`. These components require HTMX and `django-htmx`. The easiest way to set them up is to extend `master_async.html`, which includes HTMX and handles CSRF automatically.
+
+| Tag | Quick usage | Doc |
+|-----|-------------|-----|
+| [`async_counter`](docs/async/async_counter.md) | `{% async_counter initial_value=0 step=1 %}` | [docs](docs/async/async_counter.md) |
+| [`async_active_search`](docs/async/async_active_search.md) | `{% async_active_search search_url="/search/" %}` | [docs](docs/async/async_active_search.md) |
+| [`async_lazy_popup`](docs/async/async_lazy_popup.md) | `{% async_lazy_popup name_button="Open" content_url="/content/" %}` | [docs](docs/async/async_lazy_popup.md) |
+
+### Quick example
+
+```django
+{% load async_tags %}
+
+{# Counter with step 5, bounded 0–100 #}
+{% async_counter initial_value=0 step=5 min_value=0 max_value=100 %}
+
+{# Live search against your own endpoint #}
+{% async_active_search search_url="/contacts/search/" placeholder="Search contacts..." %}
+
+{# Modal that loads content only when opened #}
+{% async_lazy_popup name_button="View Report" title="Monthly Report"
+                    content_url="/reports/monthly/" size="lg" %}
+```
+
+### HTMX setup in your own base template
+
+If you are not extending `master_async.html`, add the following to your base template:
+
+```django
+{% load django_htmx %}
+
+<head>
+    {% htmx_script %}
+    {% django_htmx_script %}
+</head>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    ...
+</body>
+```
+
+
+## Static vs Async — key differences
+
+| | Static (`sample_tags`) | Async (`async_tags`) |
+|---|---|---|
+| Rendered | Server-side, with the page | On demand via HTMX |
+| JavaScript | None (Bootstrap JS for popups) | HTMX required |
+| Page reload | N/A | Never |
+| Dependencies | Bootstrap CSS/JS | Bootstrap CSS/JS + HTMX + django-htmx |
+| Best for | Simple UI elements | Interactive, live, or heavy-content components |
+
+
+## Running locally
 
 ```bash
 git clone https://github.com/GustavoRizzo/django-sample-components.git
 cd django-sample-components
 poetry install
-cd demo_project
-python -m pip install -e ..
-poetry run ./manage.py runserver
+poetry run task run-demo
 ```
 
-### Tests 🧪
-To run the tests, use the command below inside the `demo_project` directory:
+Open `http://127.0.0.1:8000` to browse the component showcase.
+
+### Tests
 
 ```bash
-poetry run ./manage.py test
+poetry run task test
 ```
 
 
-## Updating and publishing the library 🚢
-
-To update the version, build, and publish your library, use the commands below:
+## Publishing
 
 ```bash
-poetry version patch  # to bump the version (e.g.: 0.1.0 → 0.1.1)
+poetry version patch   # bump version (e.g. 0.1.0 → 0.1.1)
 poetry build
-tar -tzf dist/*.tar.gz | head -20  # to see the files inside the package
 poetry publish
 ```
+
+Update the version in both `pyproject.toml` and `django_sample_components/__init__.py` before releasing.

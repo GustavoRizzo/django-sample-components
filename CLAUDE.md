@@ -40,16 +40,22 @@ django_sample_components/   # Installable package
 │   │   ├── show_today_timestamp.py # Simple tag
 │   │   ├── simple_alert.py         # Block tag — renders component template
 │   │   ├── simple_button.py        # Simple tag — renders component template
-│   │   ├── simple_popup.py         # Block tag — renders Bootstrap modal component
+│   │   ├── simple_popup.py         # Block tag — Bootstrap modal; exports _build_modal_base_context
 │   │   └── simple_typewriter.py    # Simple tag — renders component template
 │   └── async_tags/             # HTMX-powered interactive components ({% load async_tags %})
-│       └── async_counter.py        # Simple tag — counter with +/− buttons via HTMX
+│       ├── async_counter.py        # Simple tag — counter with +/− buttons via HTMX
+│       ├── async_active_search.py  # Simple tag — live search input via HTMX
+│       └── async_lazy_popup.py     # Simple tag — Bootstrap modal with lazy-loaded body via HTMX
 ├── templates/django_sample_components/
 │   ├── pages/                  # Demo/showcase pages (one per component)
-│   ├── components/             # Component templates (alert, button, popup, typewriter, async_counter)
-│   └── partials/               # Shared partials (menu, async partial responses)
-├── static/                     # CSS/JS bundled with the package
-├── views.py                    # CBVs for demo pages and async endpoints
+│   ├── components/             # Component templates
+│   └── partials/               # Shared partials (menu, HTMX partial responses)
+├── static/
+│   ├── css/components/         # Per-component CSS (linked from component templates)
+│   └── js/components/          # Per-component JS
+├── views/
+│   ├── pages.py                # CBVs for demo pages
+│   └── component/              # CBVs for HTMX endpoints (one file per component)
 ├── urls.py                     # URL patterns for static components
 └── async_urls.py               # URL patterns for async components (included under /async/)
 
@@ -59,12 +65,16 @@ demo_project/                   # Development/testing Django project
 └── kernel/tests/
     ├── test_loadpage.py        # Static component tests
     └── async/                  # Async component tests (one file per component)
-        └── test_counter.py
+        ├── test_counter.py
+        ├── test_active_search.py
+        └── test_lazy_popup.py
 ```
 
-**Component pattern:** Each component consists of a template tag in `templatetags/sample_tags/`, a template in `templates/django_sample_components/components/`, and optionally static assets. Block tags pass rendered content + context to a component template via `django.template.loader.render_to_string`.
+**Component pattern:** Each component consists of a template tag in `templatetags/sample_tags/` (or `async_tags/`), a template in `templates/django_sample_components/components/`, and optionally a CSS file in `static/css/components/` linked via `<link>` inside the component template. Block tags pass rendered content + context to a component template via `django.template.loader.render_to_string`.
 
-**Template tag registration:** Tags are registered in `templatetags/sample_tags/__init__.py` using Django's `register = template.Library()` pattern. Consumers load them with `{% load sample_tags %}`.
+**CSS co-location:** Each component that requires custom CSS has its own file in `static/css/components/` (e.g. `async_counter.css`). The `<link>` tag is placed inside the component template itself (not in the page template), so consumers automatically get the styles when they use the tag. Run `poetry run task collectstatic` after adding or changing CSS files.
+
+**Template tag registration:** Tags are registered in `templatetags/sample_tags/__init__.py` (or `async_tags/__init__.py`) using Django's `register = template.Library()` pattern.
 
 ## Async Components (HTMX)
 
@@ -76,9 +86,11 @@ Async components are intentionally kept separate from static components to allow
 | URL patterns | `urls.py` | `async_urls.py` (mounted at `/async/`) |
 | Tests | `kernel/tests/test_*.py` | `kernel/tests/async/test_*.py` |
 
-**Async URL pattern:** Each async component exposes a single URL (e.g. `/async/counter/`) that handles both `GET` (full demo page) and `POST` (HTMX partial response) in the same view. Use `request.htmx` to branch between the two responses — return `HttpResponseBadRequest()` if a POST arrives without the `HX-Request` header.
+**Dependency rule:** async components may import from static components (e.g. `async_lazy_popup` reuses `_build_modal_base_context` from `simple_popup`). The reverse is not allowed.
 
-**Adding a new async component:** follow the same steps as static components, but place everything in the async equivalents: `async_tags/`, `async_urls.py`, and `kernel/tests/async/`.
+**Async URL pattern:** Each async component exposes two URLs — a page URL (full demo, no HTMX check) and a component URL (HTMX-only endpoint). The component endpoint returns `HttpResponseBadRequest()` if the `HX-Request` header is absent.
+
+**Adding a new async component:** follow the same steps as static components, but place everything in the async equivalents: `async_tags/`, `async_urls.py`, `views/component/`, and `kernel/tests/async/`.
 
 **django-htmx:** the project uses [`django-htmx`](https://github.com/adamchainz/django-htmx) to integrate HTMX with Django. Key features used:
 
@@ -89,6 +101,8 @@ Async components are intentionally kept separate from static components to allow
 
 ## Available Tags
 
+### Static (`{% load sample_tags %}`)
+
 | Tag | Type | Usage |
 |-----|------|-------|
 | `greeting` | simple_tag | `{% greeting %}` |
@@ -97,9 +111,26 @@ Async components are intentionally kept separate from static components to allow
 | `simple_button` | simple_tag | `{% simple_button "Label" href="/url" btn_type="primary" %}` |
 | `shout` | simple_block_tag | `{% shout %}...{% endshout %}` |
 | `simple_alert` | simple_block_tag | `{% simple_alert type="info" %}...{% endsimple_alert %}` |
-| `simple_popup` | simple_block_tag | `{% simple_popup name_button="Open" title="Title" %}...{% endsimple_popup %}` |
+| `simple_popup` | simple_block_tag | `{% simple_popup name_button="Open" title="Title" size="lg" %}...{% endsimple_popup %}` |
 
-**`simple_popup` requires Bootstrap JS** (`bootstrap.bundle.min.js`) to open and close modals.
+**`simple_popup`** accepts `size` (`"sm"`, `"lg"`, `"xl"`) for Bootstrap modal size. Requires Bootstrap JS. Internally uses `_build_modal_base_context` (importable by async tags).
+
+### Async (`{% load async_tags %}`)
+
+| Tag | Type | Usage |
+|-----|------|-------|
+| `async_counter` | simple_tag | `{% async_counter initial_value=0 step=1 min_value=0 max_value=10 %}` |
+| `async_active_search` | simple_tag | `{% async_active_search placeholder="Search..." min_chars=1 search_url="/custom/" %}` |
+| `async_lazy_popup` | simple_tag | `{% async_lazy_popup name_button="Open" title="Title" content_url="/url/" size="lg" always_reload_on_open=True %}` |
+
+**`async_counter`** — counter with +/− buttons. HTMX POSTs to `/async/counter/component/` on each click. Use `CounterComponent.get_url(initial_value, step, min_value, max_value)` to generate the component URL programmatically.
+
+**`async_active_search`** — search input that sends a GET to `search_url` on every keystroke (debounced 300 ms). The endpoint must accept a `search` query param and return `<tr>` rows. Returns `HttpResponseBadRequest` without `HX-Request` header.
+
+**`async_lazy_popup`** — Bootstrap modal whose body is fetched via HTMX only when the modal opens (triggered by `show.bs.modal`). Key parameters:
+- `content_url` — URL to fetch; defaults to the built-in demo endpoint.
+- `size` — Bootstrap modal size modifier (`"sm"`, `"lg"`, `"xl"`).
+- `always_reload_on_open` — when `False` (default) content is fetched once and the trigger element is removed from the DOM (`hx-swap="outerHTML"`). When `True`, content is re-fetched on every open (`hx-swap="innerHTML"`). Useful for live data.
 
 ## Versioning & Publishing
 
