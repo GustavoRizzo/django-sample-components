@@ -2,11 +2,28 @@ import uuid
 
 from django.http import HttpResponseBadRequest
 from django.shortcuts import render
+from django.urls import reverse
+from django.utils.http import urlencode
 from django.views import View
 
 
 class CounterComponent(View):
     template_name = 'django_sample_components/components/async_counter.html'
+
+    @staticmethod
+    def get_url(
+        initial_value: int = 0,
+        step: int = 1,
+        min_value: int | None = None,
+        max_value: int | None = None,
+    ) -> str:
+        """Returns the component URL with the given initial parameters as query string."""
+        params = {'initial_value': initial_value, 'step': step}
+        if min_value is not None:
+            params['min_value'] = min_value
+        if max_value is not None:
+            params['max_value'] = max_value
+        return f"{reverse('django_sample_components:counter_component')}?{urlencode(params)}"
 
     @staticmethod
     def _parse_optional_int(raw_value):

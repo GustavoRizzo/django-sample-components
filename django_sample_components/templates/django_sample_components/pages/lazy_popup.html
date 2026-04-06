@@ -35,7 +35,7 @@
                 <h5>Lazy popup — Counter loaded on open</h5>
                 <p>The counter is fetched from the server only when the modal is opened:</p>
                 <div class="mt-3">
-                    {% async_lazy_popup name_button="Open (lazy)" title="Counter — Lazy" content_url="/async/counter/component/?initial_value=0&step=1" size="sm" always_reload_on_open=True %}
+                    {% async_lazy_popup name_button="Open (lazy)" title="Counter — Lazy" content_url=counter_url size="sm" always_reload_on_open=True %}
                 </div>
             </div>
 
