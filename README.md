@@ -60,13 +60,13 @@ Load with `{% load sample_tags %}` in any template. No HTMX or JavaScript requir
 
 | Tag | Type | Quick usage |
 |-----|------|-------------|
-| [`greeting`](docs/static/greeting.md) | simple_tag | `{% greeting "Alice" %}` |
-| [`show_today_timestamp`](docs/static/show_today_timestamp.md) | simple_tag | `{% show_today_timestamp %}` |
-| [`simple_typewriter`](docs/static/simple_typewriter.md) | simple_tag | `{% simple_typewriter words %}` |
-| [`simple_button`](docs/static/simple_button.md) | simple_tag | `{% simple_button "Label" href="/url" btn_type="primary" %}` |
-| [`shout`](docs/static/shout.md) | block_tag | `{% shout %}...{% endshout %}` |
-| [`simple_alert`](docs/static/simple_alert.md) | block_tag | `{% simple_alert type="success" %}...{% endsimple_alert %}` |
-| [`simple_popup`](docs/static/simple_popup.md) | block_tag | `{% simple_popup name_button="Open" title="Title" %}...{% endsimple_popup %}` |
+| [`greeting`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/static/greeting.md) | simple_tag | `{% greeting "Alice" %}` |
+| [`show_today_timestamp`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/static/show_today_timestamp.md) | simple_tag | `{% show_today_timestamp %}` |
+| [`simple_typewriter`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/static/simple_typewriter.md) | simple_tag | `{% simple_typewriter words %}` |
+| [`simple_button`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/static/simple_button.md) | simple_tag | `{% simple_button "Label" href="/url" btn_type="primary" %}` |
+| [`shout`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/static/shout.md) | block_tag | `{% shout %}...{% endshout %}` |
+| [`simple_alert`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/static/simple_alert.md) | block_tag | `{% simple_alert type="success" %}...{% endsimple_alert %}` |
+| [`simple_popup`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/static/simple_popup.md) | block_tag | `{% simple_popup name_button="Open" title="Title" %}...{% endsimple_popup %}` |
 
 ### Quick example
 
@@ -91,9 +91,9 @@ Load with `{% load async_tags %}`. These components require HTMX and `django-htm
 
 | Tag | Quick usage | Doc |
 |-----|-------------|-----|
-| [`async_counter`](docs/async/async_counter.md) | `{% async_counter initial_value=0 step=1 %}` | [docs](docs/async/async_counter.md) |
-| [`async_active_search`](docs/async/async_active_search.md) | `{% async_active_search search_url="/search/" %}` | [docs](docs/async/async_active_search.md) |
-| [`async_lazy_popup`](docs/async/async_lazy_popup.md) | `{% async_lazy_popup name_button="Open" content_url="/content/" %}` | [docs](docs/async/async_lazy_popup.md) |
+| [`async_counter`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/async/async_counter.md) | `{% async_counter initial_value=0 step=1 %}` | [docs](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/async/async_counter.md) |
+| [`async_active_search`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/async/async_active_search.md) | `{% async_active_search search_url="/search/" %}` | [docs](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/async/async_active_search.md) |
+| [`async_lazy_popup`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/async/async_lazy_popup.md) | `{% async_lazy_popup name_button="Open" content_url="/content/" %}` | [docs](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/async/async_lazy_popup.md) |
 
 ### Quick example
 
