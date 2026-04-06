@@ -1,8 +1,8 @@
-import uuid
-
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.safestring import SafeString
+
+from django_sample_components.templatetags.sample_tags.simple_popup import _build_modal_base_context
 
 
 def async_lazy_popup(
@@ -31,16 +31,11 @@ def async_lazy_popup(
         {% async_lazy_popup name_button="Details" title="User Info" content_url="/my-app/user/42/" size="lg" %}
     """
     request = context.get("request")
-    id_modal = f"async-lazy-popup-{uuid.uuid4()}"
 
-    component_context = {
-        "id_modal": id_modal,
-        "id_button": f"{id_modal}-button",
-        "name_button": name_button,
-        "title": title,
-        "content_url": content_url or reverse("django_sample_components:lazy_popup_component"),
-        "size": size,
-    }
+    component_context = _build_modal_base_context(
+        name_button, title, size, id_prefix="async-lazy-popup"
+    )
+    component_context["content_url"] = content_url or reverse("django_sample_components:lazy_popup_component")
 
     return render_to_string(
         "django_sample_components/components/async_lazy_popup.html",
