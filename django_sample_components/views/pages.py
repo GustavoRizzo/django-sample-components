@@ -51,6 +51,11 @@ class CounterPage(View):
         return render(request, 'django_sample_components/pages/counter.html')
 
 
+class LazyPopupPage(View):
+    def get(self, request):
+        return render(request, 'django_sample_components/pages/lazy_popup.html')
+
+
 class ActiveSearchPage(View):
     def get(self, request):
         return render(request, 'django_sample_components/pages/active_search.html')

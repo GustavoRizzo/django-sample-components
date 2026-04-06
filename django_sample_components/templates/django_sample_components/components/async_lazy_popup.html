@@ -1,0 +1,40 @@
+{# Bootstrap 5 modal with HTMX lazy-loaded body content. #}
+{# The modal body content is fetched only when the modal is opened. #}
+{% load i18n %}
+
+{# Button trigger modal #}
+<button type="button" data-bs-toggle="modal" data-bs-target="#{{ id_modal }}" id="{{ id_button }}"
+    class="btn btn-sm btn-outline-primary">
+    {{ name_button }}
+</button>
+
+{# Modal #}
+<div class="modal fade" id="{{ id_modal }}" tabindex="-1" aria-labelledby="{{ id_modal }}-label" aria-hidden="true">
+    <div class="modal-dialog{% if size %} modal-{{ size }}{% endif %}">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="{{ id_modal }}-label">{{ title }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{% trans 'Close' %}"></button>
+            </div>
+            <div class="modal-body"
+                 hx-get="{{ content_url }}"
+                 hx-trigger="show.bs.modal from:#{{ id_modal }}"
+                 hx-swap="innerHTML">
+                {# Initial spinner shown while content loads #}
+                <div class="d-flex align-items-center gap-2 text-muted">
+                    <div class="spinner-border spinner-border-sm" role="status" aria-label="Loading"></div>
+                    <span>{% trans "Loading..." %}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById("{{ id_modal }}");
+        if (modal && modal.parentNode !== document.body) {
+            document.body.appendChild(modal);
+        }
+    });
+</script>
