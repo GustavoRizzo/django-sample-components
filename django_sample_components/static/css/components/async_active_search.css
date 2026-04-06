@@ -1,0 +1,13 @@
+.async-active-search {
+    position: relative;
+}
+
+.async-active-search .search-indicator {
+    display: none;
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.async-active-search .search-indicator.htmx-request {
+    display: inline;
+}

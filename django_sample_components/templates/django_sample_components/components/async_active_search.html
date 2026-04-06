@@ -1,0 +1,29 @@
+{# Async active-search component using HTMX #}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/components/async_active_search.css' %}">
+<div class="async-active-search" id="{{ id_active_search }}">
+    <div class="d-flex align-items-center gap-2 mb-2">
+        <input
+            class="form-control"
+            type="search"
+            name="search"
+            placeholder="{{ placeholder }}"
+            hx-get="{{ search_url }}"
+            hx-trigger="input changed delay:300ms, keyup[key=='Enter'], load"
+            hx-target="#{{ id_active_search }}-results"
+            hx-indicator="#{{ id_active_search }}-indicator"
+            {% if min_chars > 1 %}hx-params="*"{% endif %}
+        >
+        <span id="{{ id_active_search }}-indicator" class="search-indicator htmx-indicator">Searching...</span>
+    </div>
+    <table class="table table-sm table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody id="{{ id_active_search }}-results"></tbody>
+    </table>
+</div>

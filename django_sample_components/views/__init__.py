@@ -1,5 +1,6 @@
-from .component import CounterComponent, LazyLoadExternalComponent
+from .component import ActiveSearchComponent, CounterComponent, LazyLoadExternalComponent
 from .pages import (
+    ActiveSearchPage,
     AlertPage,
     ButtonPage,
     CounterPage,
@@ -11,6 +12,8 @@ from .pages import (
 )
 
 __all__ = [
+    'ActiveSearchComponent',
+    'ActiveSearchPage',
     'AlertPage',
     'ButtonPage',
     'CounterComponent',

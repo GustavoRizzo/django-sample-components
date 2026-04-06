@@ -1,0 +1,13 @@
+{% if contacts %}
+    {% for contact in contacts %}
+        <tr>
+            <td>{{ contact.first_name }}</td>
+            <td>{{ contact.last_name }}</td>
+            <td>{{ contact.email }}</td>
+        </tr>
+    {% endfor %}
+{% else %}
+    <tr>
+        <td colspan="3" class="text-muted text-center">No contacts found.</td>
+    </tr>
+{% endif %}
