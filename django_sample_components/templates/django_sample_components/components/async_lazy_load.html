@@ -1,0 +1,14 @@
+{# Async lazy-load component using HTMX #}
+<div class="async-lazy-load" id="{{ id_lazy_load }}">
+    <div
+        class="async-lazy-load-target"
+        hx-get="{{ url }}"
+        hx-trigger="revealed once"
+        hx-target="this"
+        hx-swap="innerHTML"
+        hx-vals='{"delay_ms": "{{ delay_ms|default_if_none:"" }}"}'
+    >
+        <div class="text-muted small">{{ placeholder }}</div>
+        <div class="spinner-border spinner-border-sm mt-2" role="status" aria-label="Loading"></div>
+    </div>
+</div>

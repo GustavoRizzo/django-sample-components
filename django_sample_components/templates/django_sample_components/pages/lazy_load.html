@@ -1,0 +1,59 @@
+{% extends "django_sample_components/pages/master_async.html" %}
+{% load async_tags %}
+
+{% block title %}Async Lazy Load{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1>Async Lazy Load with HTMX</h1>
+        <p class="text-muted">This component loads server content only when it becomes visible in the viewport.</p>
+
+        <hr>
+
+        <p>Scroll down to trigger each lazy-loading example. Delay is configured in milliseconds.</p>
+
+        <section class="mb-5">
+            <h4>1. Default call (no options)</h4>
+            <p class="text-muted">Uses the default internal URL (/async/lazy-load), default placeholder and no delay.</p>
+            {% async_lazy_load %}
+        </section>
+
+        <section class="mb-5">
+            <h4>2. Custom placeholder (no delay)</h4>
+            <p class="text-muted">Only customizes the waiting message.</p>
+            {% async_lazy_load placeholder="Custom placeholder: waiting for visibility in viewport..." %}
+        </section>
+
+        <section class="mb-5">
+            <h4>3. Delay only</h4>
+            <p class="text-muted">Forces a 1200ms response delay while keeping the default placeholder.</p>
+            {% async_lazy_load delay_ms=1200 %}
+        </section>
+
+        <section class="mb-5">
+            <h4>4. Internal custom URL + delay</h4>
+            <p class="text-muted">Uses an explicit internal URL and a 2500ms forced delay.</p>
+            {% async_lazy_load url="/async/lazy-load/" placeholder="Preparing delayed content from internal URL..." delay_ms=2500 %}
+        </section>
+
+        <section class="mb-5">
+            <h4>5. External URL (outside this project)</h4>
+            <p class="text-muted">Loads Google via an internal proxy endpoint, avoiding browser CORS limitations.</p>
+            {% async_lazy_load url="/async/lazy-load/external/?target_url=https://www.google.com" placeholder="Loading Google through internal proxy..." delay_ms=150 %}
+        </section>
+
+        <section class="mb-5">
+            <h4>6. Custom placeholder + delay</h4>
+            <p class="text-muted">Combines a custom message with a 2500ms forced delay.</p>
+            {% async_lazy_load placeholder="Preparing delayed content from server..." delay_ms=2500 %}
+        </section>
+
+        <section class="mb-5">
+            <h4>7. Explicit zero delay</h4>
+            <p class="text-muted">Behaves like immediate loading, but with delay configured explicitly.</p>
+            {% async_lazy_load placeholder="No artificial delay (delay_ms=0)." delay_ms=0 %}
+        </section>
+
+        <div style="height: 20vh;"></div>
+    </div>
+{% endblock %}

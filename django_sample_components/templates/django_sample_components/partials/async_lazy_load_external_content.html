@@ -1,0 +1,13 @@
+{% if error %}
+    <div class="alert alert-warning mb-0" role="alert">
+        <strong>External lazy-load failed.</strong>
+        <div class="small mt-1">{{ error }}</div>
+        <div class="small">URL: {{ target_url }}</div>
+    </div>
+{% else %}
+    <div class="alert alert-info mb-0" role="alert">
+        <strong>External lazy-load succeeded.</strong>
+        <div class="small mt-1">URL: {{ target_url }}</div>
+        <div class="small">Page title: {{ title|default:"No title found" }}</div>
+    </div>
+{% endif %}
