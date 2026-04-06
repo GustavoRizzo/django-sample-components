@@ -1,5 +1,5 @@
 {% extends "django_sample_components/pages/master_async.html" %}
-{% load async_tags %}
+{% load async_tags sample_tags %}
 
 {% block title %}Async Lazy Popup{% endblock %}
 
@@ -12,18 +12,40 @@
 
         <div class="row">
             <div class="col-md-6">
-                <h5>Default popup</h5>
-                <p>Content is loaded the first time the modal is opened:</p>
+                <h5>Load once (default)</h5>
+                <p>Content is fetched only on the first open. Close and reopen — no new request:</p>
                 <div class="mt-3">
-                    {% async_lazy_popup name_button="Open Popup" title="Lazy Popup" %}
+                    {% async_lazy_popup name_button="Open Popup" title="Lazy Popup — Load Once" %}
                 </div>
             </div>
 
             <div class="col-md-6">
-                <h5>Large popup with custom title</h5>
-                <p>Same behaviour, different size and title:</p>
+                <h5>Reload on every open</h5>
+                <p>Content is re-fetched every time the modal opens. Notice the timestamp updates:</p>
                 <div class="mt-3">
-                    {% async_lazy_popup name_button="Open Large Popup" title="Large Lazy Popup" size="lg" %}
+                    {% async_lazy_popup name_button="Open Popup" title="Lazy Popup — Reload Always" always_reload_on_open=True %}
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h5>Lazy popup — Counter loaded on open</h5>
+                <p>The counter is fetched from the server only when the modal is opened:</p>
+                <div class="mt-3">
+                    {% async_lazy_popup name_button="Open (lazy)" title="Counter — Lazy" content_url="/async/counter/component/?initial_value=0&step=1" size="sm" always_reload_on_open=True %}
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <h5>Regular popup — Counter rendered with the page</h5>
+                <p>The counter is rendered immediately as part of the page, even before the modal opens:</p>
+                <div class="mt-3">
+                    {% simple_popup name_button="Open (regular)" title="Counter — Regular" size="sm" %}
+                        {% async_counter initial_value=0 step=1 %}
+                    {% endsimple_popup %}
                 </div>
             </div>
         </div>
@@ -32,13 +54,24 @@
 
         <section class="mt-5">
             <h5>How It Works</h5>
-            <ul>
-                <li>Click the button — the modal opens immediately with a spinner</li>
-                <li>Bootstrap fires <code>show.bs.modal</code> on the modal element</li>
-                <li>HTMX intercepts that event and sends a GET request to the server</li>
-                <li>The response replaces the spinner with the real content</li>
-                <li>The server is never called unless the user actually opens the popup</li>
-            </ul>
+            <ol>
+                <li>Click the button — Bootstrap opens the modal immediately, showing a spinner</li>
+                <li>Bootstrap fires the <code>show.bs.modal</code> event on the modal element</li>
+                <li>HTMX listens for that event and sends a <code>GET</code> request to <code>content_url</code></li>
+                <li>The server response replaces the spinner with the real content</li>
+            </ol>
+
+            <div class="alert alert-primary mt-3" role="alert">
+                <strong><code>always_reload_on_open=True</code></strong>
+                <p class="mb-0 mt-1">
+                    By default, content is fetched <strong>only once</strong> — after the first load, the HTMX
+                    trigger element is removed from the DOM (<code>hx-swap="outerHTML"</code>), so no further
+                    requests are made.<br>
+                    Set <code>always_reload_on_open=True</code> to re-fetch content <strong>every time</strong>
+                    the modal opens. The trigger element persists (<code>hx-swap="innerHTML"</code>) and fires
+                    on each <code>show.bs.modal</code> event. Useful for live data that must always be fresh.
+                </p>
+            </div>
         </section>
     </div>
 {% endblock %}
