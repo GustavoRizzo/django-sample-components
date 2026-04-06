@@ -1,3 +1,4 @@
+from django.template import Context, Template
 from django.test import SimpleTestCase
 from django.urls import reverse
 
@@ -26,3 +27,21 @@ class HomePageTests(SimpleTestCase):
     def test_popup_page_status_code(self):
         response = self.client.get(self.popup_page_url)
         self.assertEqual(response.status_code, 200)
+
+
+class SimplePopupTemplateTagTests(SimpleTestCase):
+    """Test the simple_popup template tag rendering."""
+
+    def test_renders_size_modifier(self):
+        template = Template('{% load sample_tags %}{% simple_popup name_button="Open" size="lg" %}content{% endsimple_popup %}')
+        rendered = template.render(Context())
+
+        self.assertIn('modal-lg', rendered)
+
+    def test_renders_no_size_class_by_default(self):
+        template = Template('{% load sample_tags %}{% simple_popup name_button="Open" %}content{% endsimple_popup %}')
+        rendered = template.render(Context())
+
+        self.assertNotIn('modal-sm', rendered)
+        self.assertNotIn('modal-lg', rendered)
+        self.assertNotIn('modal-xl', rendered)

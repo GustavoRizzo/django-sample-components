@@ -12,6 +12,7 @@ def simple_popup(
     id_button: str = None,
     use_layout_hiperlink: bool = False,
     class_button: str = None,
+    size: str | None = None,
 ) -> SafeString:
     """
     Renders a Bootstrap 5 modal triggered by a button.
@@ -26,6 +27,7 @@ def simple_popup(
                               styled hyperlink instead of a button. Default: False.
         class_button:         Custom CSS classes for the trigger element. Overrides use_layout_hiperlink.
                               Default: "btn btn-sm btn-outline-primary".
+        size:                 Bootstrap modal size modifier: "sm", "lg", or "xl". Omitted if not set.
     """
     def _button_class(class_button: str, use_layout_hiperlink: bool) -> str:
         if class_button:
@@ -45,5 +47,6 @@ def simple_popup(
         "name_button": name_button,
         "use_layout_hiperlink": use_layout_hiperlink,
         "class_button": _button_class(class_button, use_layout_hiperlink),
+        "size": size,
     }
     return render_to_string("django_sample_components/components/simple_popup.html", context)
