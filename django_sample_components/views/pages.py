@@ -53,8 +53,8 @@ class CounterPage(View):
 
 class LazyPopupPage(View):
     def get(self, request):
-        from .component.counter_component import CounterComponent
-        context = {'counter_url': CounterComponent.get_url(initial_value=0, step=1)}
+        from .component.counter_component import CounterComponentView
+        context = {'counter_url': CounterComponentView.get_url(initial_value=0, step=1)}
         return render(request, 'django_sample_components/pages/lazy_popup.html', context)
 
 

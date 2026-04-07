@@ -7,7 +7,7 @@ from django.utils.http import urlencode
 from django.views import View
 
 
-class CounterComponent(View):
+class CounterComponentView(View):
     template_name = 'django_sample_components/components/async_counter.html'
 
     @staticmethod

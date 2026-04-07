@@ -9,7 +9,7 @@ from django.shortcuts import render
 from django.views import View
 
 
-class LazyLoadExternalComponent(View):
+class LazyLoadExternalComponentView(View):
     def get(self, request):
         if not request.htmx:
             return HttpResponseBadRequest()

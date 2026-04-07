@@ -5,7 +5,7 @@ from django.views import View
 from django_sample_components.forms.registration_form import SUBJECT_CAPACITY, TAKEN_USERNAMES, RegistrationForm
 
 
-class RegistrationFormComponent(View):
+class RegistrationFormComponentView(View):
     template_name = "django_sample_components/components/async_registration_form.html"
 
     def get(self, request):

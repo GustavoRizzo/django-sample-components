@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.views import View
 
 
-class LazyPopupComponent(View):
+class LazyPopupComponentView(View):
     def get(self, request):
         if not request.htmx:
             return HttpResponseBadRequest()

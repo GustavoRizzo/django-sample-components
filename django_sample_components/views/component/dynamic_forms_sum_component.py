@@ -5,7 +5,7 @@ from django.views import View
 from django_sample_components.forms.sum_form import SumForm
 
 
-class DynamicFormsSumComponent(View):
+class DynamicFormsSumComponentView(View):
     template_name = "django_sample_components/components/async_sum_form.html"
 
     def get(self, request):

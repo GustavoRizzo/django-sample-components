@@ -26,7 +26,7 @@ DEMO_CONTACTS = [
 ]
 
 
-class ActiveSearchComponent(View):
+class ActiveSearchComponentView(View):
     def get(self, request):
         if not request.htmx:
             return HttpResponseBadRequest()
