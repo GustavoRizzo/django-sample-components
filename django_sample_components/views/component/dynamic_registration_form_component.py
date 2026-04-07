@@ -1,3 +1,5 @@
+import json
+
 from django.http import HttpResponseBadRequest
 from django.shortcuts import render
 from django.views import View
@@ -16,8 +18,12 @@ class RegistrationFormComponentView(View):
             return HttpResponseBadRequest()
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            return render(request, self.template_name, {"form": form, "success": True})
-        return render(request, self.template_name, {"form": form})
+            response = render(request, self.template_name, {"form": form, "success": True})
+            response["HX-Trigger"] = json.dumps({"showToast": {"message": "Registration submitted successfully!", "type": "success"}})
+        else:
+            response = render(request, self.template_name, {"form": form})
+            response["HX-Trigger"] = json.dumps({"showToast": {"message": "Please fix the errors in the form.", "type": "error"}})
+        return response
 
 
 class CheckUsernamePartialView(View):

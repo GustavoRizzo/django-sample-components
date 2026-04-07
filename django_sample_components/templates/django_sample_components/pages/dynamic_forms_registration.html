@@ -1,9 +1,10 @@
 {% extends "django_sample_components/pages/master_async.html" %}
-{% load async_tags %}
+{% load async_tags sample_tags %}
 
 {% block title %}Dynamic Forms — Registration{% endblock %}
 
 {% block content %}
+    {% simple_toast position="top-end" %}
     <div class="container mt-5">
         <h1>Inline Field Validation with HTMX &amp; crispy-forms</h1>
         <p class="text-muted">Fields validate individually as you interact — without waiting for a full form submit.</p>

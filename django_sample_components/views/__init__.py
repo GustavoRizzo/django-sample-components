@@ -20,6 +20,7 @@ from .pages import (
     LazyPopupPage,
     PopupPage,
     RegistrationFormPage,
+    ToastPage,
     TypewriterPage,
 )
 
@@ -43,5 +44,6 @@ __all__ = [
     'PopupPage',
     'RegistrationFormComponentView',
     'RegistrationFormPage',
+    'ToastPage',
     'TypewriterPage',
 ]

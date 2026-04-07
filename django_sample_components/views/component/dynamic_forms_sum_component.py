@@ -1,3 +1,5 @@
+import json
+
 from django.http import HttpResponseBadRequest
 from django.shortcuts import render
 from django.views import View
@@ -16,4 +18,7 @@ class DynamicFormsSumComponentView(View):
             return HttpResponseBadRequest()
 
         form = SumForm(request.POST)
-        return render(request, self.template_name, {"form": form, "result": form.get_result()})
+        response = render(request, self.template_name, {"form": form, "result": form.get_result()})
+        if form.is_valid():
+            response["HX-Trigger"] = json.dumps({"showToast": {"message": "Result calculated successfully!", "type": "success"}})
+        return response

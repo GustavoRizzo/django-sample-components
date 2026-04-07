@@ -1,6 +1,7 @@
 import time
 
 from django.conf import settings
+from django.contrib import messages
 from django.shortcuts import render
 from django.utils import timezone
 from django.views import View
@@ -71,6 +72,15 @@ class DynamicFormsSumPage(View):
 class RegistrationFormPage(View):
     def get(self, request):
         return render(request, 'django_sample_components/pages/dynamic_forms_registration.html')
+
+
+class ToastPage(View):
+    def get(self, request):
+        messages.success(request, "This is a success message!")
+        messages.warning(request, "This is a warning message!")
+        messages.error(request, "This is an error message!")
+        messages.info(request, "This is an info message!")
+        return render(request, 'django_sample_components/pages/toast.html')
 
 
 class LazyLoadPage(View):

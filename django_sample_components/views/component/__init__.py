@@ -3,7 +3,7 @@ from .counter_component import CounterComponentView
 from .dynamic_forms_sum_component import DynamicFormsSumComponentView
 from .lazy_load_external_component import LazyLoadExternalComponentView
 from .lazy_popup_component import LazyPopupComponentView
-from .registration_form_component import (
+from .dynamic_registration_form_component import (
     CheckSubjectPartialView,
     CheckUsernamePartialView,
     RegistrationFormComponentView,

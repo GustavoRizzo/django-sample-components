@@ -6,6 +6,7 @@ from .show_today_timestamp import show_today_timestamp
 from .simple_alert import simple_alert
 from .simple_button import simple_button
 from .simple_popup import simple_popup
+from .simple_toast import simple_toast
 from .simple_typewriter import simple_typewriter
 
 register = template.Library()
@@ -15,6 +16,7 @@ register.simple_tag(show_today_timestamp)
 register.simple_tag(greeting)
 register.simple_tag(simple_typewriter)
 register.simple_tag(simple_button)
+register.simple_tag(simple_toast, takes_context=True)
 
 # 2. simple_block_tags
 register.simple_block_tag(shout)

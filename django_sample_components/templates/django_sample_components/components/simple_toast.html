@@ -1,0 +1,84 @@
+{# Toast container + JS. Displays Django messages on load; exposes window.showToast() for JS/HTMX use. #}
+<div id="toast-container" class="toast-container position-fixed {{ position_class }} p-3" style="z-index: 1090;"></div>
+
+<script>
+  (function () {
+    /**
+     * Show a Bootstrap toast.
+     * @param {string} message - Toast text (supports \n → <br>)
+     * @param {string} type    - "success" | "error" | "warning" | "info" | "primary" | "secondary" | "danger"
+     * @param {object} options - Override {autohide: bool, delay: number}
+     */
+    function showToast(message, type, options) {
+      if (type === undefined) { type = 'info'; }
+      if (options === undefined) { options = {}; }
+
+      var defaultOptions = {
+        autohide: {{ autohide|yesno:"true,false" }},
+        delay: {{ delay }}
+      };
+      var merged = Object.assign({}, defaultOptions, options);
+
+      var container = document.getElementById('toast-container');
+
+      var toastEl = document.createElement('div');
+      toastEl.className = 'toast ' + getToastClass(type);
+      toastEl.setAttribute('role', 'alert');
+      toastEl.setAttribute('aria-live', 'assertive');
+      toastEl.setAttribute('aria-atomic', 'true');
+      toastEl.setAttribute('data-bs-autohide', String(merged.autohide));
+      toastEl.setAttribute('data-bs-delay', String(merged.delay));
+
+      var toastBody = document.createElement('div');
+      toastBody.className = 'toast-body d-flex justify-content-between align-items-center px-4';
+
+      var messageSpan = document.createElement('span');
+      messageSpan.className = 'text-white fw-medium';
+      messageSpan.innerHTML = message.replace(/\n/g, '<br>');
+      toastBody.appendChild(messageSpan);
+
+      var closeBtn = document.createElement('button');
+      closeBtn.type = 'button';
+      closeBtn.className = 'btn-close btn-close-white ms-3';
+      closeBtn.setAttribute('data-bs-dismiss', 'toast');
+      closeBtn.setAttribute('aria-label', 'Close');
+      toastBody.appendChild(closeBtn);
+
+      toastEl.appendChild(toastBody);
+      container.appendChild(toastEl);
+
+      var toast = new bootstrap.Toast(toastEl);
+      toast.show();
+
+      toastEl.addEventListener('hidden.bs.toast', function () { toastEl.remove(); });
+    }
+
+    function getToastClass(type) {
+      var map = {
+        'success': 'bg-success',
+        'error': 'bg-danger',
+        'danger': 'bg-danger',
+        'warning': 'bg-warning',
+        'info': 'bg-info',
+        'primary': 'bg-primary',
+        'secondary': 'bg-secondary'
+      };
+      return map[type] || 'bg-primary';
+    }
+
+    {# Display Django messages queued on the server #}
+    document.addEventListener('DOMContentLoaded', function () {
+      {% for msg in toast_messages %}
+        showToast("{{ msg|escapejs }}", "{{ msg.tags|default:'info'|escapejs }}");
+      {% endfor %}
+    });
+
+    {# HTMX: listen for HX-Trigger: {"showToast": {"message": "...", "type": "..."}} #}
+    document.addEventListener('showToast', function (event) {
+      var detail = event.detail || {};
+      showToast(detail.message || '', detail.type || 'info');
+    });
+
+    window.showToast = showToast;
+  })();
+</script>

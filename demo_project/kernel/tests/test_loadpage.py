@@ -29,6 +29,41 @@ class HomePageTests(SimpleTestCase):
         self.assertEqual(response.status_code, 200)
 
 
+class ToastPageTests(SimpleTestCase):
+    """Test the toast demo page."""
+
+    toast_page_url = reverse("django_sample_components:toast")
+
+    def test_page_status_code(self):
+        response = self.client.get(self.toast_page_url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_page_renders_toast_container(self):
+        response = self.client.get(self.toast_page_url)
+        self.assertContains(response, 'id="toast-container"')
+        self.assertContains(response, 'showToast')
+
+
+class SimpleToastTemplateTagTests(SimpleTestCase):
+    """Test the simple_toast template tag rendering."""
+
+    def test_renders_toast_container(self):
+        template = Template('{% load sample_tags %}{% simple_toast %}')
+        rendered = template.render(Context())
+        self.assertIn('id="toast-container"', rendered)
+        self.assertIn('showToast', rendered)
+
+    def test_default_position_bottom_end(self):
+        template = Template('{% load sample_tags %}{% simple_toast %}')
+        rendered = template.render(Context())
+        self.assertIn('bottom-0 end-0', rendered)
+
+    def test_custom_position_top_end(self):
+        template = Template('{% load sample_tags %}{% simple_toast position="top-end" %}')
+        rendered = template.render(Context())
+        self.assertIn('top-0 end-0', rendered)
+
+
 class SimplePopupTemplateTagTests(SimpleTestCase):
     """Test the simple_popup template tag rendering."""
 

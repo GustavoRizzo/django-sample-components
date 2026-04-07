@@ -1,0 +1,75 @@
+{% extends "django_sample_components/pages/master_async.html" %}
+{% load sample_tags async_tags %}
+
+{% block title %}Toast{% endblock %}
+
+{% block content %}
+    {# Toast container — Django messages fire automatically on load #}
+    {% simple_toast %}
+
+    <div class="container mt-5">
+        <h1>Toast</h1>
+        <p class="text-muted">Self-contained toast notification component powered by Bootstrap.</p>
+
+        <hr>
+
+        <section>
+            <h5>Django Messages (automatic)</h5>
+            <p>The four Django messages queued by the view were displayed as toasts on page load.</p>
+            <button class="btn btn-outline-secondary btn-sm" onclick="location.reload()">
+                Reload to see them again
+            </button>
+        </section>
+
+        <hr>
+
+        <section class="mt-4">
+            <h5>Manual — via JavaScript</h5>
+            <p>Call <code>window.showToast(message, type)</code> from anywhere.</p>
+            <div class="d-flex flex-wrap gap-2">
+                <button class="btn btn-success btn-sm" onclick="showToast('Operation completed!', 'success')">Success</button>
+                <button class="btn btn-danger btn-sm" onclick="showToast('Something went wrong.', 'error')">Error</button>
+                <button class="btn btn-warning btn-sm" onclick="showToast('Please review this.', 'warning')">Warning</button>
+                <button class="btn btn-info btn-sm" onclick="showToast('Just so you know.', 'info')">Info</button>
+            </div>
+        </section>
+
+        <hr>
+
+        <section class="mt-4">
+            <h5>HTMX — triggered by server response</h5>
+            <p>
+                Submit the form below. The view sets
+                <code>HX-Trigger: &#123;"showToast": &#123;"message": "...", "type": "success"&#125;&#125;</code>
+                on a valid submission, which fires the toast automatically.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    {% async_sum_form %}
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <section class="mt-4">
+            <h5>Usage</h5>
+            <pre class="bg-light p-3 rounded"><code>{% verbatim %}{% load sample_tags %}
+
+{# 1. Include once — renders container + JS #}
+{% simple_toast %}
+{% simple_toast position="top-end" %}
+{% simple_toast autohide=False delay=3000 %}
+
+{# 2. Django messages fire automatically — no extra code needed #}
+# views.py
+messages.success(request, "Saved!")
+
+{# 3. Plain JS #}{% endverbatim %}
+window.showToast("Hello!", "success")
+{% verbatim %}
+{# 4. HTMX — from the view: #}{% endverbatim %}
+response["HX-Trigger"] = json.dumps(&#123;"showToast": &#123;"message": "Done!", "type": "success"&#125;&#125;)</code></pre>
+        </section>
+    </div>
+{% endblock %}
