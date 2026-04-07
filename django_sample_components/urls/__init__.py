@@ -1,6 +1,6 @@
 from django.urls import include, path
 
-from .views import AlertPage, ButtonPage, GreetingPage, HomePage, PopupPage, TypewriterPage
+from ..views import AlertPage, ButtonPage, GreetingPage, HomePage, PopupPage, TypewriterPage
 
 app_name = 'django_sample_components'
 
@@ -11,5 +11,5 @@ urlpatterns = [
     path('typewriter/', TypewriterPage.as_view(), name='typewriter'),
     path('button/', ButtonPage.as_view(), name='button'),
     path('popup/', PopupPage.as_view(), name='popup'),
-    path('async/', include('django_sample_components.async_urls')),
+    path('async/', include('django_sample_components.urls.async_urls')),
 ]
