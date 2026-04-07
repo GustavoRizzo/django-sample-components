@@ -33,7 +33,9 @@ class SimplePopupTemplateTagTests(SimpleTestCase):
     """Test the simple_popup template tag rendering."""
 
     def test_renders_size_modifier(self):
-        template = Template('{% load sample_tags %}{% simple_popup name_button="Open" size="lg" %}content{% endsimple_popup %}')
+        template = Template(
+            '{% load sample_tags %}{% simple_popup name_button="Open" size="lg" %}content{% endsimple_popup %}'
+        )
         rendered = template.render(Context())
 
         self.assertIn('modal-lg', rendered)

@@ -1,9 +1,16 @@
-from .component import ActiveSearchComponent, CounterComponent, LazyLoadExternalComponent, LazyPopupComponent
+from .component import (
+    ActiveSearchComponent,
+    CounterComponent,
+    DynamicFormsSumComponent,
+    LazyLoadExternalComponent,
+    LazyPopupComponent,
+)
 from .pages import (
     ActiveSearchPage,
     AlertPage,
     ButtonPage,
     CounterPage,
+    DynamicFormsSumPage,
     GreetingPage,
     HomePage,
     LazyLoadPage,
@@ -19,6 +26,8 @@ __all__ = [
     'ButtonPage',
     'CounterComponent',
     'CounterPage',
+    'DynamicFormsSumComponent',
+    'DynamicFormsSumPage',
     'GreetingPage',
     'HomePage',
     'LazyLoadExternalComponent',

@@ -1,0 +1,11 @@
+{# Self-contained sum form component using HTMX and crispy-forms #}
+{% load static crispy_forms_tags %}
+<div id="sum-form-component-wrapper" class="async-sum-form">
+    <link rel="stylesheet" href="{% static 'css/components/async_sum_form.css' %}">
+    {% crispy form %}
+    {% if result is not None %}
+    <div class="alert alert-success mt-3 sum-result" role="alert">
+        Result: <strong>{{ result }}</strong>
+    </div>
+    {% endif %}
+</div>

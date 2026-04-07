@@ -63,6 +63,11 @@ class ActiveSearchPage(View):
         return render(request, 'django_sample_components/pages/active_search.html')
 
 
+class DynamicFormsSumPage(View):
+    def get(self, request):
+        return render(request, 'django_sample_components/pages/dynamic_forms_sum.html')
+
+
 class LazyLoadPage(View):
     def get(self, request):
         if not request.htmx:
