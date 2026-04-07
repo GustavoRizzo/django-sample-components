@@ -19,10 +19,24 @@ class RegistrationFormComponentView(View):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             response = render(request, self.template_name, {"form": form, "success": True})
-            response["HX-Trigger"] = json.dumps({"showToast": {"message": "Registration submitted successfully!", "type": "success"}})
+            response["HX-Trigger"] = json.dumps(
+                {
+                    "showToast": {
+                        "message": "Registration submitted successfully!",
+                        "type": "success",
+                    }
+                }
+            )
         else:
             response = render(request, self.template_name, {"form": form})
-            response["HX-Trigger"] = json.dumps({"showToast": {"message": "Please fix the errors in the form.", "type": "error"}})
+            response["HX-Trigger"] = json.dumps(
+                {
+                    "showToast": {
+                        "message": "Please fix the errors in the form.",
+                        "type": "error",
+                    }
+                }
+            )
         return response
 
 

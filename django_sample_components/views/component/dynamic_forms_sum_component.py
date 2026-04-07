@@ -20,5 +20,12 @@ class DynamicFormsSumComponentView(View):
         form = SumForm(request.POST)
         response = render(request, self.template_name, {"form": form, "result": form.get_result()})
         if form.is_valid():
-            response["HX-Trigger"] = json.dumps({"showToast": {"message": "Result calculated successfully!", "type": "success"}})
+            response["HX-Trigger"] = json.dumps(
+                {
+                    "showToast": {
+                        "message": "Result calculated successfully!",
+                        "type": "success",
+                    }
+                }
+            )
         return response
