@@ -1,0 +1,7 @@
+{% if valid is not None %}
+    {% if valid %}
+        <span class="text-success small"><i class="bi bi-check-circle"></i> {{ message }}</span>
+    {% else %}
+        <span class="text-danger small"><i class="bi bi-x-circle"></i> {{ message }}</span>
+    {% endif %}
+{% endif %}

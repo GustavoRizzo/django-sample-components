@@ -68,6 +68,11 @@ class DynamicFormsSumPage(View):
         return render(request, 'django_sample_components/pages/dynamic_forms_sum.html')
 
 
+class RegistrationFormPage(View):
+    def get(self, request):
+        return render(request, 'django_sample_components/pages/dynamic_forms_registration.html')
+
+
 class LazyLoadPage(View):
     def get(self, request):
         if not request.htmx:

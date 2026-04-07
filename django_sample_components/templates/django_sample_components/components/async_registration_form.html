@@ -1,0 +1,12 @@
+{% load static crispy_forms_tags %}
+<div id="registration-form-wrapper" class="async-registration-form">
+    <link rel="stylesheet" href="{% static 'css/components/async_registration_form.css' %}">
+    {% if success %}
+        <div class="alert alert-success" role="alert">
+            <h5 class="alert-heading">Registration successful!</h5>
+            <p class="mb-0">Welcome, <strong>{{ form.cleaned_data.username }}</strong>! Your account has been created.</p>
+        </div>
+    {% else %}
+        {% crispy form %}
+    {% endif %}
+</div>

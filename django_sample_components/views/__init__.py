@@ -1,9 +1,12 @@
 from .component import (
     ActiveSearchComponent,
+    CheckSubjectPartialView,
+    CheckUsernamePartialView,
     CounterComponent,
     DynamicFormsSumComponent,
     LazyLoadExternalComponent,
     LazyPopupComponent,
+    RegistrationFormComponent,
 )
 from .pages import (
     ActiveSearchPage,
@@ -16,6 +19,7 @@ from .pages import (
     LazyLoadPage,
     LazyPopupPage,
     PopupPage,
+    RegistrationFormPage,
     TypewriterPage,
 )
 
@@ -24,6 +28,8 @@ __all__ = [
     'ActiveSearchPage',
     'AlertPage',
     'ButtonPage',
+    'CheckSubjectPartialView',
+    'CheckUsernamePartialView',
     'CounterComponent',
     'CounterPage',
     'DynamicFormsSumComponent',
@@ -35,5 +41,7 @@ __all__ = [
     'LazyPopupComponent',
     'LazyPopupPage',
     'PopupPage',
+    'RegistrationFormComponent',
+    'RegistrationFormPage',
     'TypewriterPage',
 ]

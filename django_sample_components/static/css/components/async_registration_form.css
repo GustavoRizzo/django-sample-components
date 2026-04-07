@@ -1,0 +1,10 @@
+.async-registration-form {
+    padding: 1.5rem;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    background-color: #f8f9fa;
+}
+
+.async-registration-form .form-text {
+    min-height: 1.25rem; /* prevent layout shift when feedback appears/disappears */
+}

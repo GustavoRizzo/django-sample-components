@@ -1,0 +1,11 @@
+{% if valid is not None %}
+    {% if valid %}
+        {% if warn %}
+            <span class="text-warning small"><i class="bi bi-exclamation-triangle"></i> {{ message }}</span>
+        {% else %}
+            <span class="text-success small"><i class="bi bi-check-circle"></i> {{ message }}</span>
+        {% endif %}
+    {% else %}
+        <span class="text-danger small"><i class="bi bi-x-circle"></i> {{ message }}</span>
+    {% endif %}
+{% endif %}

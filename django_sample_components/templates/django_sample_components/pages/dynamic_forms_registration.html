@@ -1,0 +1,37 @@
+{% extends "django_sample_components/pages/master_async.html" %}
+{% load async_tags %}
+
+{% block title %}Dynamic Forms — Registration{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1>Inline Field Validation with HTMX &amp; crispy-forms</h1>
+        <p class="text-muted">Fields validate individually as you interact — without waiting for a full form submit.</p>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Registration Form</h5>
+                <p>Try typing a taken username (e.g. <code>alice</code>) or selecting <strong>Physics</strong> to see inline feedback.</p>
+                <div class="mt-3">
+                    {% async_registration_form %}
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <section class="mt-5">
+            <h5>How It Works</h5>
+            <ul>
+                <li><strong>Username</strong> sends a GET to the check endpoint on every keyup (400ms debounce, only when &gt;3 chars) and swaps the feedback div inline</li>
+                <li><strong>Subject</strong> sends a GET to the check endpoint on every change event, showing available spots or a full warning</li>
+                <li><strong>Password</strong> and <strong>Date of Birth</strong> are validated only on full form submit</li>
+                <li>On valid submit, a success message replaces the form inside the component wrapper (<code>hx-swap="outerHTML"</code>)</li>
+                <li>On invalid submit, the full component re-renders with crispy-forms error display</li>
+                <li>Validation data is mocked server-side — no database or migrations required</li>
+            </ul>
+        </section>
+    </div>
+{% endblock %}
