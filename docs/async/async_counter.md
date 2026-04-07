@@ -29,12 +29,12 @@ Requires **HTMX** (included via `{% load async_tags %}` pages that extend `maste
 
 The endpoint also accepts `GET` requests (with `HX-Request` header) to render a fresh counter — used when loading the component via lazy popup or other HTMX triggers.
 
-Use `CounterComponent.get_url()` to build the GET URL programmatically:
+Use `CounterComponentView.get_url()` to build the GET URL programmatically:
 
 ```python
-from django_sample_components.views.component.counter_component import CounterComponent
+from django_sample_components.views.component.counter_component import CounterComponentView
 
-url = CounterComponent.get_url(initial_value=5, step=2, min_value=0, max_value=20)
+url = CounterComponentView.get_url(initial_value=5, step=2, min_value=0, max_value=20)
 # → /async/counter/component/?initial_value=5&step=2&min_value=0&max_value=20
 ```
 

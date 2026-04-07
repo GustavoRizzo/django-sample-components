@@ -78,12 +78,12 @@ class MyPopupContent(View):
 ### Loading `async_counter` lazily — view setup
 
 ```python
-from django_sample_components.views.component.counter_component import CounterComponent
+from django_sample_components.views.component.counter_component import CounterComponentView
 
 class MyPage(View):
     def get(self, request):
         context = {
-            "counter_url": CounterComponent.get_url(initial_value=0, step=1),
+            "counter_url": CounterComponentView.get_url(initial_value=0, step=1),
         }
         return render(request, "my_page.html", context)
 ```

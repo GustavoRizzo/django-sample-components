@@ -64,6 +64,7 @@ Load with `{% load sample_tags %}` in any template. No HTMX or JavaScript requir
 | [`show_today_timestamp`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/static/show_today_timestamp.md) | simple_tag | `{% show_today_timestamp %}` |
 | [`simple_typewriter`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/static/simple_typewriter.md) | simple_tag | `{% simple_typewriter words %}` |
 | [`simple_button`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/static/simple_button.md) | simple_tag | `{% simple_button "Label" href="/url" btn_type="primary" %}` |
+| [`simple_toast`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/static/simple_toast.md) | simple_tag | `{% simple_toast position="bottom-end" autohide=True delay=6000 %}` |
 | [`shout`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/static/shout.md) | block_tag | `{% shout %}...{% endshout %}` |
 | [`simple_alert`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/static/simple_alert.md) | block_tag | `{% simple_alert type="success" %}...{% endsimple_alert %}` |
 | [`simple_popup`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/static/simple_popup.md) | block_tag | `{% simple_popup name_button="Open" title="Title" %}...{% endsimple_popup %}` |
@@ -82,6 +83,9 @@ Load with `{% load sample_tags %}` in any template. No HTMX or JavaScript requir
 {% endsimple_popup %}
 
 {% simple_button "Download" href="/files/report.pdf" icon_before="fa fa-download" %}
+
+{# Toast container for Django messages + JS API (window.showToast) #}
+{% simple_toast position="bottom-end" autohide=True delay=5000 %}
 ```
 
 
@@ -92,8 +96,11 @@ Load with `{% load async_tags %}`. These components require HTMX and `django-htm
 | Tag | Quick usage | Doc |
 |-----|-------------|-----|
 | [`async_counter`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/async/async_counter.md) | `{% async_counter initial_value=0 step=1 %}` | [docs](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/async/async_counter.md) |
+| [`async_lazy_load`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/async/async_lazy_load.md) | `{% async_lazy_load url="/async/lazy-load/" delay_ms=1200 %}` | [docs](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/async/async_lazy_load.md) |
 | [`async_active_search`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/async/async_active_search.md) | `{% async_active_search search_url="/search/" %}` | [docs](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/async/async_active_search.md) |
 | [`async_lazy_popup`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/async/async_lazy_popup.md) | `{% async_lazy_popup name_button="Open" content_url="/content/" %}` | [docs](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/async/async_lazy_popup.md) |
+| [`async_sum_form`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/async/async_sum_form.md) | `{% async_sum_form %}` | [docs](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/async/async_sum_form.md) |
+| [`async_registration_form`](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/async/async_registration_form.md) | `{% async_registration_form %}` | [docs](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/async/async_registration_form.md) |
 
 ### Quick example
 
@@ -109,6 +116,13 @@ Load with `{% load async_tags %}`. These components require HTMX and `django-htm
 {# Modal that loads content only when opened #}
 {% async_lazy_popup name_button="View Report" title="Monthly Report"
                     content_url="/reports/monthly/" size="lg" %}
+
+{# Lazy load any endpoint on reveal #}
+{% async_lazy_load url="/async/counter/component/?initial_value=10&step=2" delay_ms=2000 %}
+
+{# Async forms #}
+{% async_sum_form %}
+{% async_registration_form %}
 ```
 
 ### HTMX setup in your own base template

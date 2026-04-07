@@ -33,6 +33,10 @@ poetry run task collectstatic
 
 ```
 django_sample_components/   # Installable package
+├── urls/
+│   ├── __init__.py              # Main URL patterns for static pages + /async include
+│   ├── async_urls.py            # URL patterns for async pages/components (mounted at /async/)
+│   └── dynamic_forms_urls.py    # Async URL subset for dynamic forms
 ├── templatetags/
 │   ├── sample_tags/            # Static components ({% load sample_tags %})
 │   │   ├── greeting.py             # Simple tag
@@ -41,11 +45,15 @@ django_sample_components/   # Installable package
 │   │   ├── simple_alert.py         # Block tag — renders component template
 │   │   ├── simple_button.py        # Simple tag — renders component template
 │   │   ├── simple_popup.py         # Block tag — Bootstrap modal; exports _build_modal_base_context
+│   │   ├── simple_toast.py         # Simple tag — toast container + JS API
 │   │   └── simple_typewriter.py    # Simple tag — renders component template
 │   └── async_tags/             # HTMX-powered interactive components ({% load async_tags %})
 │       ├── async_counter.py        # Simple tag — counter with +/− buttons via HTMX
 │       ├── async_active_search.py  # Simple tag — live search input via HTMX
-│       └── async_lazy_popup.py     # Simple tag — Bootstrap modal with lazy-loaded body via HTMX
+│       ├── async_lazy_popup.py     # Simple tag — Bootstrap modal with lazy-loaded body via HTMX
+│       ├── async_lazy_load.py      # Simple tag — reveal-triggered lazy loader via HTMX
+│       ├── async_sum_form.py       # Simple tag — async sum form component
+│       └── async_registration_form.py # Simple tag — async registration form component
 ├── templates/django_sample_components/
 │   ├── pages/                  # Demo/showcase pages (one per component)
 │   ├── components/             # Component templates
@@ -54,10 +62,9 @@ django_sample_components/   # Installable package
 │   ├── css/components/         # Per-component CSS (linked from component templates)
 │   └── js/components/          # Per-component JS
 ├── views/
-│   ├── pages.py                # CBVs for demo pages
+│   ├── __init__.py             # Public view exports
+│   ├── pages.py                # CBVs for demo pages (all page classes use *Page suffix)
 │   └── component/              # CBVs for HTMX endpoints (one file per component)
-├── urls.py                     # URL patterns for static components
-└── async_urls.py               # URL patterns for async components (included under /async/)
 
 demo_project/                   # Development/testing Django project
 ├── kernel/settings.py          # Installs django_sample_components
@@ -83,14 +90,14 @@ Async components are intentionally kept separate from static components to allow
 | Concern | Static | Async |
 |---------|--------|-------|
 | Template tags | `templatetags/sample_tags/` | `templatetags/async_tags/` |
-| URL patterns | `urls.py` | `async_urls.py` (mounted at `/async/`) |
+| URL patterns | `urls/__init__.py` | `urls/async_urls.py` (mounted at `/async/`) |
 | Tests | `kernel/tests/test_*.py` | `kernel/tests/async/test_*.py` |
 
 **Dependency rule:** async components may import from static components (e.g. `async_lazy_popup` reuses `_build_modal_base_context` from `simple_popup`). The reverse is not allowed.
 
 **Async URL pattern:** Each async component exposes two URLs — a page URL (full demo, no HTMX check) and a component URL (HTMX-only endpoint). The component endpoint returns `HttpResponseBadRequest()` if the `HX-Request` header is absent.
 
-**Adding a new async component:** follow the same steps as static components, but place everything in the async equivalents: `async_tags/`, `async_urls.py`, `views/component/`, and `kernel/tests/async/`.
+**Adding a new async component:** follow the same steps as static components, but place everything in the async equivalents: `async_tags/`, `urls/async_urls.py`, `views/component/`, and `kernel/tests/async/`.
 
 **django-htmx:** the project uses [`django-htmx`](https://github.com/adamchainz/django-htmx) to integrate HTMX with Django. Key features used:
 
@@ -109,6 +116,7 @@ Async components are intentionally kept separate from static components to allow
 | `show_today_timestamp` | simple_tag | `{% show_today_timestamp %}` |
 | `simple_typewriter` | simple_tag | `{% simple_typewriter words %}` |
 | `simple_button` | simple_tag | `{% simple_button "Label" href="/url" btn_type="primary" %}` |
+| `simple_toast` | simple_tag | `{% simple_toast position="bottom-end" autohide=True delay=6000 %}` |
 | `shout` | simple_block_tag | `{% shout %}...{% endshout %}` |
 | `simple_alert` | simple_block_tag | `{% simple_alert type="info" %}...{% endsimple_alert %}` |
 | `simple_popup` | simple_block_tag | `{% simple_popup name_button="Open" title="Title" size="lg" %}...{% endsimple_popup %}` |
@@ -120,10 +128,13 @@ Async components are intentionally kept separate from static components to allow
 | Tag | Type | Usage |
 |-----|------|-------|
 | `async_counter` | simple_tag | `{% async_counter initial_value=0 step=1 min_value=0 max_value=10 %}` |
+| `async_lazy_load` | simple_tag | `{% async_lazy_load url="/async/lazy-load/" delay_ms=1200 %}` |
 | `async_active_search` | simple_tag | `{% async_active_search placeholder="Search..." min_chars=1 search_url="/custom/" %}` |
 | `async_lazy_popup` | simple_tag | `{% async_lazy_popup name_button="Open" title="Title" content_url="/url/" size="lg" always_reload_on_open=True %}` |
+| `async_sum_form` | simple_tag | `{% async_sum_form %}` |
+| `async_registration_form` | simple_tag | `{% async_registration_form %}` |
 
-**`async_counter`** — counter with +/− buttons. HTMX POSTs to `/async/counter/component/` on each click. Use `CounterComponent.get_url(initial_value, step, min_value, max_value)` to generate the component URL programmatically.
+**`async_counter`** — counter with +/− buttons. HTMX POSTs to `/async/counter/component/` on each click. Use `CounterComponentView.get_url(initial_value, step, min_value, max_value)` to generate the component URL programmatically.
 
 **`async_active_search`** — search input that sends a GET to `search_url` on every keystroke (debounced 300 ms). The endpoint must accept a `search` query param and return `<tr>` rows. Returns `HttpResponseBadRequest` without `HX-Request` header.
 
@@ -131,6 +142,12 @@ Async components are intentionally kept separate from static components to allow
 - `content_url` — URL to fetch; defaults to the built-in demo endpoint.
 - `size` — Bootstrap modal size modifier (`"sm"`, `"lg"`, `"xl"`).
 - `always_reload_on_open` — when `False` (default) content is fetched once and the trigger element is removed from the DOM (`hx-swap="outerHTML"`). When `True`, content is re-fetched on every open (`hx-swap="innerHTML"`). Useful for live data.
+
+**`async_lazy_load`** — reveal-triggered lazy loader that performs a one-time HTMX `GET` (`hx-trigger="revealed once"`). Supports custom `url`, placeholder text, and optional `delay_ms`.
+
+**`async_sum_form`** — interactive sum form built with crispy-forms. Posts to `/async/dynamic-forms/sum/component/` and updates in place.
+
+**`async_registration_form`** — interactive registration form with per-field HTMX validation (`username` and `subject`) and toast triggers on submit.
 
 ## Versioning & Publishing
 
