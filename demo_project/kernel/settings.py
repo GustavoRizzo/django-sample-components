@@ -41,7 +41,11 @@ INSTALLED_APPS = [
     'django_htmx',
     'crispy_forms',
     'crispy_bootstrap5',
+    'simple_menu',
+    'kernel',
 ]
+
+MENU_SELECT_PARENTS = True
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = ('bootstrap5',)
 CRISPY_TEMPLATE_PACK = 'bootstrap5'

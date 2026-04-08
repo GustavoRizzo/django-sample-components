@@ -158,11 +158,13 @@ If you are not extending `master_async.html`, add the following to your base tem
 ```bash
 git clone https://github.com/GustavoRizzo/django-sample-components.git
 cd django-sample-components
-poetry install
+poetry install          # installs library + dev dependencies (includes demo extras)
 poetry run task run-demo
 ```
 
 Open `http://127.0.0.1:8000` to browse the component showcase.
+
+> **Note:** The demo project uses [`django-simple-menu`](https://github.com/jazzband/django-simple-menu) for its navigation. This is a **dev-only** dependency — it is not installed when consumers add `django-sample-components` to their projects via `pip install` or `poetry add`.
 
 ### Tests
 

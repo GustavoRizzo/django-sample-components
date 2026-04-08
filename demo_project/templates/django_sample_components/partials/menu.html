@@ -1,20 +1,37 @@
-{% load static i18n %}
-
-<nav>
-    <a href="/">{% trans "Home" %}</a>
-    <a href="{% url 'greeting' %}">{% trans "Greeting" %}</a>
-    <a href="{% url 'alert' %}">{% trans "Alert" %}</a>
-    <a href="{% url 'typewriter' %}">{% trans "Typewriter" %}</a>
-    <a href="{% url 'button' %}">{% trans "Button" %}</a>
-    <a href="{% url 'popup' %}">{% trans "Popup" %}</a>
-    <a href="{% url 'toast' %}">{% trans "Toast" %}</a>
-    {# Async Components #}
-    <a href="{% url 'counter' %}">{% trans "Counter" %}</a>
-    <a href="{% url 'lazy_load_page' %}">{% trans "Lazy Load" %}</a>
-    <a href="{% url 'active_search' %}">{% trans "Active Search" %}</a>
-    <a href="{% url 'lazy_popup' %}">{% trans "Lazy Popup" %}</a>
-    <a href="{% url 'htmx_loader' %}">{% trans "HTMX Loader" %}</a>
-    {# Dynamic Forms #}
-    <a href="{% url 'dynamic_forms_sum' %}">{% trans "Dynamic Forms" %}</a>
-    <a href="{% url 'registration_form' %}">{% trans "Registration Form" %}</a>
+{% load simple_menu %}
+{% generate_menu %}
+<nav class="navbar navbar-expand-lg bg-dark border-bottom border-secondary-subtle sticky-top shadow-sm" data-bs-theme="dark">
+    <div class="container-xl">
+        <a class="navbar-brand fw-semibold me-4" href="/">Django Sample Components</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="navbar-nav ms-lg-auto mb-2 mb-lg-0 align-items-lg-center gap-lg-2">
+                {% for item in menus.main %}
+                    {% if item.children %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle{% if item.selected %} active{% endif %}"
+                           href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ item.title }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            {% for child in item.children %}
+                            <li>
+                                <a class="dropdown-item{% if child.selected %} active{% endif %}"
+                                   href="{{ child.url }}">{{ child.title }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link{% if item.selected %} active{% endif %}"
+                           href="{{ item.url }}">{{ item.title }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 </nav>
