@@ -33,7 +33,7 @@ class AsyncSumFormTemplateTagTests(SimpleTestCase):
 class DynamicFormsSumPageTests(SimpleTestCase):
     """Test the dynamic forms sum demo page."""
 
-    url = reverse('django_sample_components:dynamic_forms_sum')
+    url = reverse('dynamic_forms_sum')
 
     def test_page_loads(self):
         response = self.client.get(self.url)

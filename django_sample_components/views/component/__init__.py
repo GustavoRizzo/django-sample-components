@@ -6,6 +6,7 @@ from .dynamic_registration_form_component import (
     CheckUsernamePartialView,
     RegistrationFormComponentView,
 )
+from .lazy_load_component import LazyLoadComponentView
 from .lazy_load_external_component import LazyLoadExternalComponentView
 from .lazy_popup_component import LazyPopupComponentView
 
@@ -15,6 +16,7 @@ __all__ = [
     'CheckUsernamePartialView',
     'CounterComponentView',
     'DynamicFormsSumComponentView',
+    'LazyLoadComponentView',
     'LazyLoadExternalComponentView',
     'LazyPopupComponentView',
     'RegistrationFormComponentView',

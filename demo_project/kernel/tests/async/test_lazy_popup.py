@@ -63,7 +63,7 @@ class AsyncLazyPopupTemplateTagTests(SimpleTestCase):
 class LazyPopupPageTests(SimpleTestCase):
     """Test the lazy-popup demo page."""
 
-    url = reverse('django_sample_components:lazy_popup')
+    url = reverse('lazy_popup')
 
     def test_page_loads(self):
         response = self.client.get(self.url)

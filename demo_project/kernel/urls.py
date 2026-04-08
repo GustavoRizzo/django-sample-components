@@ -1,28 +1,30 @@
-"""
-URL configuration for kernel project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
 
-from django_sample_components import urls
+from django_sample_components import urls as component_urls
+
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(urls)),
+    # Demo pages
+    path('', views.HomePage.as_view(), name='home'),
+    path('greeting/', views.GreetingPage.as_view(), name='greeting'),
+    path('alert/', views.AlertPage.as_view(), name='alert'),
+    path('typewriter/', views.TypewriterPage.as_view(), name='typewriter'),
+    path('button/', views.ButtonPage.as_view(), name='button'),
+    path('popup/', views.PopupPage.as_view(), name='popup'),
+    path('toast/', views.ToastPage.as_view(), name='toast'),
+    path('async/counter/', views.CounterPage.as_view(), name='counter'),
+    path('async/active-search/', views.ActiveSearchPage.as_view(), name='active_search'),
+    path('async/htmx-loader/', views.HtmxLoaderPage.as_view(), name='htmx_loader'),
+    path('async/lazy-load/page/', views.LazyLoadPage.as_view(), name='lazy_load_page'),
+    path('async/lazy-popup/', views.LazyPopupPage.as_view(), name='lazy_popup'),
+    path('async/dynamic-forms/sum/', views.DynamicFormsSumPage.as_view(), name='dynamic_forms_sum'),
+    path('async/dynamic-forms/registration/', views.RegistrationFormPage.as_view(), name='registration_form'),
+    # Library component endpoints
+    path('', include(component_urls)),
 ]
 
 if settings.DEBUG:

@@ -5,12 +5,11 @@ from django.urls import reverse
 
 class HomePageTests(SimpleTestCase):
     """Test class to verify the home page is accessible."""
-    app_name = 'django_sample_components'
 
-    home_page_url = reverse(f"{app_name}:home")
-    greeting_page_url = reverse(f"{app_name}:greeting")
-    alert_page_url = reverse(f"{app_name}:alert")
-    popup_page_url = reverse(f"{app_name}:popup")
+    home_page_url = reverse("home")
+    greeting_page_url = reverse("greeting")
+    alert_page_url = reverse("alert")
+    popup_page_url = reverse("popup")
 
     def test_home_page_status_code(self):
         response = self.client.get(self.home_page_url)
@@ -32,7 +31,7 @@ class HomePageTests(SimpleTestCase):
 class ToastPageTests(SimpleTestCase):
     """Test the toast demo page."""
 
-    toast_page_url = reverse("django_sample_components:toast")
+    toast_page_url = reverse("toast")
 
     def test_page_status_code(self):
         response = self.client.get(self.toast_page_url)

@@ -1,0 +1,20 @@
+{% load static i18n %}
+
+<nav>
+    <a href="/">{% trans "Home" %}</a>
+    <a href="{% url 'greeting' %}">{% trans "Greeting" %}</a>
+    <a href="{% url 'alert' %}">{% trans "Alert" %}</a>
+    <a href="{% url 'typewriter' %}">{% trans "Typewriter" %}</a>
+    <a href="{% url 'button' %}">{% trans "Button" %}</a>
+    <a href="{% url 'popup' %}">{% trans "Popup" %}</a>
+    <a href="{% url 'toast' %}">{% trans "Toast" %}</a>
+    {# Async Components #}
+    <a href="{% url 'counter' %}">{% trans "Counter" %}</a>
+    <a href="{% url 'lazy_load_page' %}">{% trans "Lazy Load" %}</a>
+    <a href="{% url 'active_search' %}">{% trans "Active Search" %}</a>
+    <a href="{% url 'lazy_popup' %}">{% trans "Lazy Popup" %}</a>
+    <a href="{% url 'htmx_loader' %}">{% trans "HTMX Loader" %}</a>
+    {# Dynamic Forms #}
+    <a href="{% url 'dynamic_forms_sum' %}">{% trans "Dynamic Forms" %}</a>
+    <a href="{% url 'registration_form' %}">{% trans "Registration Form" %}</a>
+</nav>

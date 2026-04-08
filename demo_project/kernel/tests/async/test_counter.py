@@ -47,7 +47,7 @@ class AsyncCounterTemplateTagTests(SimpleTestCase):
 class AsyncCounterPageTests(SimpleTestCase):
     """Test the counter demo page."""
 
-    url = reverse('django_sample_components:counter')
+    url = reverse('counter')
 
     def test_page_loads(self):
         response = self.client.get(self.url)

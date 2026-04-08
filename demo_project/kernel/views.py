@@ -1,10 +1,9 @@
-import time
-
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import render
-from django.utils import timezone
 from django.views import View
+
+from django_sample_components.views.component.counter_component import CounterComponentView
 
 
 class HomePage(View):
@@ -54,7 +53,6 @@ class CounterPage(View):
 
 class LazyPopupPage(View):
     def get(self, request):
-        from .component.counter_component import CounterComponentView
         context = {'counter_url': CounterComponentView.get_url(initial_value=0, step=1)}
         return render(request, 'django_sample_components/pages/lazy_popup.html', context)
 
@@ -90,19 +88,4 @@ class HtmxLoaderPage(View):
 
 class LazyLoadPage(View):
     def get(self, request):
-        if not request.htmx:
-            return render(request, 'django_sample_components/pages/lazy_load.html')
-
-        raw_delay_ms = request.GET.get('delay_ms')
-        try:
-            delay_ms = int(raw_delay_ms) if raw_delay_ms not in (None, '') else 0
-        except ValueError:
-            delay_ms = 0
-
-        # Clamp delay to keep demo responses predictable and avoid excessive waits.
-        delay_ms = max(0, min(delay_ms, 10000))
-        if delay_ms > 0:
-            time.sleep(delay_ms / 1000)
-
-        context = {'loaded_at': timezone.now()}
-        return render(request, 'django_sample_components/partials/async_lazy_load_content.html', context)
+        return render(request, 'django_sample_components/pages/lazy_load.html')

@@ -38,7 +38,7 @@ class AsyncLazyLoadTemplateTagTests(SimpleTestCase):
 class AsyncLazyLoadPageTests(SimpleTestCase):
     """Test the lazy load demo page."""
 
-    url = reverse("django_sample_components:lazy_load")
+    url = reverse("lazy_load_page")
 
     def test_page_loads(self):
         response = self.client.get(self.url)
@@ -68,7 +68,7 @@ class AsyncLazyLoadPartialTests(SimpleTestCase):
         self.assertIn(b"Lazy content loaded!", response.content)
         self.assertIn(b"Loaded at:", response.content)
 
-    @patch("django_sample_components.views.pages.time.sleep")
+    @patch("django_sample_components.views.component.lazy_load_component.time.sleep")
     def test_lazy_load_partial_with_delay(self, sleep_mock):
         response = self.client.get(self.url, {"delay_ms": "250"}, HTTP_HX_REQUEST="true")
 

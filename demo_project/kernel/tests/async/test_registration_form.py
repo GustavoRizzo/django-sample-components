@@ -36,7 +36,7 @@ class AsyncRegistrationFormTemplateTagTests(SimpleTestCase):
 class RegistrationFormPageTests(SimpleTestCase):
     """Test the registration form demo page."""
 
-    url = reverse('django_sample_components:registration_form')
+    url = reverse('registration_form')
 
     def test_page_loads(self):
         response = self.client.get(self.url)

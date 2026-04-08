@@ -44,7 +44,7 @@ class AsyncActiveSearchTemplateTagTests(SimpleTestCase):
 class ActiveSearchPageTests(SimpleTestCase):
     """Test the active-search demo page."""
 
-    url = reverse('django_sample_components:active_search')
+    url = reverse('active_search')
 
     def test_page_loads(self):
         response = self.client.get(self.url)
