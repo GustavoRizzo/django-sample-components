@@ -3,13 +3,11 @@
 
 {% block title %}Async HTMX Loader{% endblock %}
 
+{% block page_title %}Async HTMX Loader{% endblock %}
+
+{% block page_intro %}Generic HTMX loader that fetches server content on configurable triggers with a Bootstrap spinner.{% endblock %}
+
 {% block content %}
-    <div class="container mt-5">
-        <h1>Async HTMX Loader</h1>
-        <p class="text-muted">Generic GET loader that fires an HTMX request on a given trigger and shows a Bootstrap spinner while waiting.</p>
-
-        <hr>
-
         <section class="mb-5">
             <h4>1. Default trigger (load)</h4>
             <p class="text-muted">Fires immediately on page load. Uses the counter component endpoint.</p>
@@ -35,5 +33,4 @@
         </section>
 
         <div style="height: 20vh;"></div>
-    </div>
 {% endblock %}

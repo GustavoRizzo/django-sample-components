@@ -3,13 +3,11 @@
 
 {% block title %}Async Lazy Load{% endblock %}
 
+{% block page_title %}Async Lazy Load{% endblock %}
+
+{% block page_intro %}Reveal-triggered loading for server content, with optional delays and custom endpoints.{% endblock %}
+
 {% block content %}
-    <div class="container mt-5">
-        <h1>Async Lazy Load with HTMX</h1>
-        <p class="text-muted">This component loads server content only when it becomes visible in the viewport.</p>
-
-        <hr>
-
         <p>Scroll down to trigger each lazy-loading example. Delay is configured in milliseconds.</p>
 
         <section class="mb-5">
@@ -61,5 +59,4 @@
         </section>
 
         <div style="height: 20vh;"></div>
-    </div>
 {% endblock %}

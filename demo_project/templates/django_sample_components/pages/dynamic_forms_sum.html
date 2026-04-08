@@ -3,13 +3,11 @@
 
 {% block title %}Dynamic Forms — Sum{% endblock %}
 
+{% block page_title %}Dynamic Forms Sum{% endblock %}
+
+{% block page_intro %}Self-contained form that submits and updates inline without a full page refresh.{% endblock %}
+
 {% block content %}
-    <div class="container mt-5">
-        <h1>Dynamic Forms with HTMX &amp; crispy-forms</h1>
-        <p class="text-muted">Self-contained form that submits and displays its result without a full page reload.</p>
-
-        <hr>
-
         <div class="row">
             <div class="col-md-6">
                 <h5>Sum of Two Numbers</h5>
@@ -32,5 +30,4 @@
                 <li>Validation errors are displayed inline if the form is invalid</li>
             </ul>
         </section>
-    </div>
 {% endblock %}

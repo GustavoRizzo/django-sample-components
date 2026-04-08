@@ -2,8 +2,12 @@
 
 {% load sample_tags %}
 
-{% block content %}
-    <h1>Greeting Page</h1>
+{% block title %}Greeting{% endblock %}
 
-    <p>{% greeting "My dear visitor" %}</p>
+{% block page_title %}Greeting{% endblock %}
+
+{% block page_intro %}Simple tag example that renders a personalized greeting.{% endblock %}
+
+{% block content %}
+    <p class="fs-5 mb-0">{% greeting "My dear visitor" %}</p>
 {% endblock %}

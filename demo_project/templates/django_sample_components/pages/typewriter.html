@@ -2,10 +2,14 @@
 
 {% load sample_tags %}
 
-{% block content %}
-    <h1>Typewriter</h1>
+{% block title %}Simple Typewriter{% endblock %}
 
-    <div style="display: flex; gap: 0.2rem;">
+{% block page_title %}Simple Typewriter{% endblock %}
+
+{% block page_intro %}Animated typing effect component driven by a configurable list of words.{% endblock %}
+
+{% block content %}
+    <div class="d-flex flex-wrap align-items-center gap-2 fs-5">
         Check this cool text effect:{% simple_typewriter words=words %}
     </div>
 

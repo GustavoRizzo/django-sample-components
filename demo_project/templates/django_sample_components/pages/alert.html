@@ -2,9 +2,13 @@
 
 {% load sample_tags %}
 
-{% block content %}
-    <h1>Alert Page</h1>
+{% block title %}Simple Alert{% endblock %}
 
+{% block page_title %}Simple Alert{% endblock %}
+
+{% block page_intro %}Examples of alert variants and nested alert content rendered with template tags.{% endblock %}
+
+{% block content %}
     {% simple_alert %}
         This is the content for <i>simple_alert</i>.
     {% endsimple_alert %}

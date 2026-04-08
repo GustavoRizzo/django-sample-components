@@ -3,13 +3,11 @@
 
 {% block title %}Async Active Search{% endblock %}
 
+{% block page_title %}Async Active Search{% endblock %}
+
+{% block page_intro %}Search input that filters results on every keystroke without reloading the page.{% endblock %}
+
 {% block content %}
-    <div class="container mt-5">
-        <h1>Async Active Search with HTMX</h1>
-        <p class="text-muted">Search input that filters results on every keystroke — no page reload.</p>
-
-        <hr>
-
         <div class="row">
             <div class="col-md-8">
                 <h5>Default (search all contacts)</h5>
@@ -42,5 +40,4 @@
                 <li>The server filters contacts by first name, last name, or email (case-insensitive)</li>
             </ul>
         </section>
-    </div>
 {% endblock %}

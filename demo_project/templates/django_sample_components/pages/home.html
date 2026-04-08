@@ -2,9 +2,13 @@
 
 {% load sample_tags %}
 
-{% block content %}
-    <h1>Welcome to Django Sample Components - Version {{ versao }}</h1>
+{% block title %}Home{% endblock %}
 
+{% block page_title %}Welcome to Django Sample Components{% endblock %}
+
+{% block page_intro %}Version {{ versao }} showcase for the reusable Django component library.{% endblock %}
+
+{% block content %}
     <p>To learn more about the library, <a href="{{ url_pypi }}">visit the PyPI page</a></p>
     <p>Check out the source code on <a href="{{ url_github }}">GitHub</a></p>
     <p>This template was loaded directly from the library package!</p>

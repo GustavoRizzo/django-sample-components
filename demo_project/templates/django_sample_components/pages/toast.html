@@ -3,15 +3,13 @@
 
 {% block title %}Toast{% endblock %}
 
+{% block page_title %}Simple Toast{% endblock %}
+
+{% block page_intro %}Self-contained toast notifications powered by Bootstrap and usable from Django, JavaScript, or HTMX responses.{% endblock %}
+
 {% block content %}
     {# Toast container — Django messages fire automatically on load #}
     {% simple_toast %}
-
-    <div class="container mt-5">
-        <h1>Toast</h1>
-        <p class="text-muted">Self-contained toast notification component powered by Bootstrap.</p>
-
-        <hr>
 
         <section>
             <h5>Django Messages (automatic)</h5>
@@ -71,5 +69,4 @@ window.showToast("Hello!", "success")
 {# 4. HTMX — from the view: #}{% endverbatim %}
 response["HX-Trigger"] = json.dumps(&#123;"showToast": &#123;"message": "Done!", "type": "success"&#125;&#125;)</code></pre>
         </section>
-    </div>
 {% endblock %}

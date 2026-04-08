@@ -6,9 +6,13 @@
 {# The modal open/close behavior is handled entirely by Bootstrap's JavaScript plugin.     #}
 {# Make sure bootstrap.bundle.min.js is loaded before using this component.               #}
 
-{% block content %}
-    <h1>Popup Page</h1>
+{% block title %}Simple Popup{% endblock %}
 
+{% block page_title %}Simple Popup{% endblock %}
+
+{% block page_intro %}Modal examples covering default behavior, custom titles, and richer content blocks.{% endblock %}
+
+{% block content %}
     {% simple_alert type="warning" %}
         <strong>Dependency notice:</strong> this component requires
         <a href="https://getbootstrap.com/docs/5.3/components/modal/" target="_blank" rel="noopener noreferrer">Bootstrap JS</a>

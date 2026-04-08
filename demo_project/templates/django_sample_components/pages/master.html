@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Django Sample Componentes{% endblock %}</title>
+    <title>{% block title %}Django Sample Components{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script src="{% static 'js/main.js' %}"></script>
 
@@ -24,15 +24,35 @@
 
     {% block extra_head %}{% endblock %}
 </head>
-<body {% block body_attrs %}{% endblock %}>
-    <header>
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary" {% block body_attrs %}{% endblock %}>
+    <header class="mb-3 mb-lg-4">
         {% include "django_sample_components/partials/menu.html" %}
     </header>
-    <main>
-        {% block content %}{% endblock %}
+    <main class="flex-grow-1">
+        <div class="container-xl px-3 px-md-4 px-xl-3">
+            <div class="py-4 py-lg-5">
+                <div class="vstack gap-4 gap-lg-5">
+                    <section class="border-bottom pb-4 pb-lg-5">
+                        <div class="row g-3 align-items-end">
+                            <div class="col-12 col-xl-8">
+                                <h1 class="display-6 fw-semibold mb-0">{% block page_title %}Django Sample Components{% endblock %}</h1>
+                            </div>
+                            <div class="col-12 col-xl-8">
+                                <p class="lead text-body-secondary mb-0">{% block page_intro %}Reusable Django UI components and async demos built on Bootstrap 5.3.{% endblock %}</p>
+                            </div>
+                        </div>
+                    </section>
+                    <section>
+                        {% block content %}{% endblock %}
+                    </section>
+                </div>
+            </div>
+        </div>
     </main>
-    <footer>
-        <p>&copy; {{ year|default:2025 }} My Django Sample Components</p>
+    <footer class="border-top bg-body mt-4 mt-lg-5">
+        <div class="container-xl px-3 px-md-4 px-xl-3 py-4 py-lg-5">
+            <p class="mb-0 text-body-secondary small">&copy; {{ year|default:2025 }} My Django Sample Components</p>
+        </div>
     </footer>
 
     {% block extra_styles %}{% endblock %}

@@ -2,9 +2,13 @@
 
 {% load sample_tags %}
 
-{% block content %}
-    <h1>Button Page</h1>
+{% block title %}Simple Button{% endblock %}
 
+{% block page_title %}Simple Button{% endblock %}
+
+{% block page_intro %}Button variants, icons, tooltips, and sizing options built on Bootstrap 5.3 styles.{% endblock %}
+
+{% block content %}
     <h3>Basic Buttons</h3>
     <div class="mb-4">
         {% simple_button "Click here" href="/home" %}
