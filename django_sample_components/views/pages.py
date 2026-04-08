@@ -83,6 +83,11 @@ class ToastPage(View):
         return render(request, 'django_sample_components/pages/toast.html')
 
 
+class HtmxLoaderPage(View):
+    def get(self, request):
+        return render(request, 'django_sample_components/pages/htmx_loader.html')
+
+
 class LazyLoadPage(View):
     def get(self, request):
         if not request.htmx:

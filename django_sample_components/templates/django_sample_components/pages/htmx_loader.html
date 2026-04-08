@@ -1,0 +1,39 @@
+{% extends "django_sample_components/pages/master_async.html" %}
+{% load async_tags %}
+
+{% block title %}Async HTMX Loader{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1>Async HTMX Loader</h1>
+        <p class="text-muted">Generic GET loader that fires an HTMX request on a given trigger and shows a Bootstrap spinner while waiting.</p>
+
+        <hr>
+
+        <section class="mb-5">
+            <h4>1. Default trigger (load)</h4>
+            <p class="text-muted">Fires immediately on page load. Uses the counter component endpoint.</p>
+            {% async_htmx_loader url_htmx="/async/counter/component/?initial_value=0&step=1&min_value=0&max_value=10" %}
+        </section>
+
+        <section class="mb-5">
+            <h4>2. Custom trigger (revealed once)</h4>
+            <p class="text-muted">Fires only when the element scrolls into the viewport.</p>
+            {% async_htmx_loader url_htmx="/async/counter/component/?initial_value=5&step=2&min_value=0&max_value=20" hx_trigger="revealed once" text_preload="Scroll to reveal counter..." %}
+        </section>
+
+        <section class="mb-5">
+            <h4>3. Custom loading text</h4>
+            <p class="text-muted">Overrides the default spinner label.</p>
+            {% async_htmx_loader url_htmx="/async/counter/component/?initial_value=10&step=5&min_value=0&max_value=50" text_preload="Fetching counter from server..." %}
+        </section>
+
+        <section class="mb-5">
+            <h4>4. Explicit id_target</h4>
+            <p class="text-muted">Provides a stable element ID instead of an auto-generated one.</p>
+            {% async_htmx_loader url_htmx="/async/counter/component/?initial_value=3&step=1&min_value=0&max_value=10" id_target="my-counter-target" text_preload="Loading my-counter-target..." %}
+        </section>
+
+        <div style="height: 20vh;"></div>
+    </div>
+{% endblock %}

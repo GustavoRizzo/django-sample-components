@@ -1,0 +1,15 @@
+{# HTMX loader component — fires a GET on hx_trigger and replaces inner div with response #}
+<span
+    hx-get="{{ url_htmx }}"
+    hx-trigger="{{ hx_trigger }}"
+    hx-target="#{{ id_target }}"
+    hx-swap="innerHTML"
+    {% if hx_on_after_swap %}hx-on::after-swap="{{ hx_on_after_swap }}"{% endif %}
+>
+    <div id="{{ id_target }}" class="d-flex align-items-center">
+        <div class="spinner-border me-2" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <span>{{ text_preload }}</span>
+    </div>
+</span>
