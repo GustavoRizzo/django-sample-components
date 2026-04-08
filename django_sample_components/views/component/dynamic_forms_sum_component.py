@@ -1,6 +1,7 @@
 import json
 
-from django.http import HttpResponseBadRequest
+from django.http import HttpRequest, HttpResponseBadRequest
+from django.forms import Form
 from django.shortcuts import render
 from django.views import View
 
@@ -19,6 +20,10 @@ class DynamicFormsSumComponentView(View):
 
         form = SumForm(request.POST)
         response = render(request, self.template_name, {"form": form, "result": form.get_result()})
+        response = self.trigger_toast_message(response, form)
+        return response
+
+    def trigger_toast_message(self, response: HttpRequest, form: Form) -> HttpRequest:
         if form.is_valid():
             response["HX-Trigger"] = json.dumps(
                 {

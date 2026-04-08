@@ -1,6 +1,7 @@
 import json
 
-from django.http import HttpResponseBadRequest
+from django.forms import Form
+from django.http import HttpRequest, HttpResponseBadRequest
 from django.shortcuts import render
 from django.views import View
 
@@ -16,9 +17,18 @@ class RegistrationFormComponentView(View):
     def post(self, request):
         if not request.htmx:
             return HttpResponseBadRequest()
+
         form = RegistrationForm(request.POST)
         if form.is_valid():
             response = render(request, self.template_name, {"form": form, "success": True})
+        else:
+            response = render(request, self.template_name, {"form": form})
+
+        response = self.trigger_toast_message(response, form)
+        return response
+
+    def trigger_toast_message(self, response: HttpRequest, form: Form) -> HttpRequest:
+        if form.is_valid():
             response["HX-Trigger"] = json.dumps(
                 {
                     "showToast": {
@@ -28,7 +38,6 @@ class RegistrationFormComponentView(View):
                 }
             )
         else:
-            response = render(request, self.template_name, {"form": form})
             response["HX-Trigger"] = json.dumps(
                 {
                     "showToast": {
@@ -37,6 +46,7 @@ class RegistrationFormComponentView(View):
                     }
                 }
             )
+
         return response
 
 
