@@ -1,36 +1,36 @@
 import json
 
-from django.http import HttpRequest, HttpResponseBadRequest
-from django.forms import Form
-from django.shortcuts import render
-from django.views import View
+from django.http import HttpResponseBadRequest
+from django.views.generic.edit import FormView
 
 from django_sample_components.forms.sum_form import SumForm
 
 
-class DynamicFormsSumComponentView(View):
+class DynamicFormsSumComponentView(FormView):
     template_name = "django_sample_components/components/async_sum_form.html"
+    form_class = SumForm
 
-    def get(self, request):
-        return render(request, self.template_name, {"form": SumForm(), "result": None})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.setdefault("result", None)
+        return context
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         if not request.htmx:
             return HttpResponseBadRequest()
+        return super().post(request, *args, **kwargs)
 
-        form = SumForm(request.POST)
-        response = render(request, self.template_name, {"form": form, "result": form.get_result()})
-        response = self.trigger_toast_message(response, form)
-        return response
-
-    def trigger_toast_message(self, response: HttpRequest, form: Form) -> HttpRequest:
-        if form.is_valid():
-            response["HX-Trigger"] = json.dumps(
-                {
-                    "showToast": {
-                        "message": "Result calculated successfully!",
-                        "type": "success",
-                    }
+    def form_valid(self, form):
+        response = self.render_to_response(self.get_context_data(form=form, result=form.get_result()))
+        response["HX-Trigger"] = json.dumps(
+            {
+                "showToast": {
+                    "message": "Result calculated successfully!",
+                    "type": "success",
                 }
-            )
+            }
+        )
         return response
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))

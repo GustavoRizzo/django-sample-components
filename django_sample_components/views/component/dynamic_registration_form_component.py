@@ -1,52 +1,44 @@
 import json
 
-from django.forms import Form
-from django.http import HttpRequest, HttpResponseBadRequest
+from django.http import HttpResponseBadRequest
 from django.shortcuts import render
 from django.views import View
+from django.views.generic.edit import FormView
 
 from django_sample_components.forms.registration_form import SUBJECT_CAPACITY, TAKEN_USERNAMES, RegistrationForm
 
 
-class RegistrationFormComponentView(View):
+class RegistrationFormComponentView(FormView):
     template_name = "django_sample_components/components/async_registration_form.html"
+    form_class = RegistrationForm
 
-    def get(self, request):
-        return render(request, self.template_name, {"form": RegistrationForm()})
-
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         if not request.htmx:
             return HttpResponseBadRequest()
+        return super().post(request, *args, **kwargs)
 
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            response = render(request, self.template_name, {"form": form, "success": True})
-        else:
-            response = render(request, self.template_name, {"form": form})
-
-        response = self.trigger_toast_message(response, form)
+    def form_valid(self, form):
+        response = self.render_to_response(self.get_context_data(form=form, success=True))
+        response["HX-Trigger"] = json.dumps(
+            {
+                "showToast": {
+                    "message": "Registration submitted successfully!",
+                    "type": "success",
+                }
+            }
+        )
         return response
 
-    def trigger_toast_message(self, response: HttpRequest, form: Form) -> HttpRequest:
-        if form.is_valid():
-            response["HX-Trigger"] = json.dumps(
-                {
-                    "showToast": {
-                        "message": "Registration submitted successfully!",
-                        "type": "success",
-                    }
+    def form_invalid(self, form):
+        response = self.render_to_response(self.get_context_data(form=form))
+        response["HX-Trigger"] = json.dumps(
+            {
+                "showToast": {
+                    "message": "Please fix the errors in the form.",
+                    "type": "error",
                 }
-            )
-        else:
-            response["HX-Trigger"] = json.dumps(
-                {
-                    "showToast": {
-                        "message": "Please fix the errors in the form.",
-                        "type": "error",
-                    }
-                }
-            )
-
+            }
+        )
         return response
 
 
