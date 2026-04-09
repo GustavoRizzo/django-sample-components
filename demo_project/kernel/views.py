@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import render
+from django.urls import reverse
 from django.views import View
 
 from django_sample_components.views.component.counter_component import CounterComponentView
@@ -53,7 +54,10 @@ class CounterPage(View):
 
 class LazyPopupPage(View):
     def get(self, request):
-        context = {'counter_url': CounterComponentView.get_url(initial_value=0, step=1)}
+        context = {
+            'counter_url': CounterComponentView.get_url(initial_value=0, step=1),
+            'lazy_popup_url': reverse('django_sample_components:lazy_popup_component'),
+        }
         return render(request, 'django_sample_components/pages/lazy_popup.html', context)
 
 

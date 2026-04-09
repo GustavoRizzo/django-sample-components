@@ -2,62 +2,80 @@ from django.template import Context, Template
 from django.test import SimpleTestCase
 from django.urls import reverse
 
+SPINNER = (
+    '<div class="d-flex align-items-center gap-2 text-muted">'
+    '<div class="spinner-border spinner-border-sm" role="status"></div>'
+    '<span>Loading...</span>'
+    '</div>'
+)
+
+
+def lazy_popup_tpl(tag_args: str, block: str = SPINNER) -> Template:
+    """Build an async_lazy_popup template string for testing."""
+    return Template(
+        "{% load async_tags %}"
+        "{% async_lazy_popup " + tag_args + " %}"
+        + block
+        + "{% endasync_lazy_popup %}"
+    )
+
 
 class AsyncLazyPopupTemplateTagTests(SimpleTestCase):
     """Test the async_lazy_popup template tag rendering."""
 
-    def test_renders_with_defaults(self):
-        template = Template("{% load async_tags %}{% async_lazy_popup %}")
-        rendered = template.render(Context())
+    def test_renders_with_content_url(self):
+        rendered = lazy_popup_tpl('content_url="/demo/"').render(Context())
 
         self.assertIn('async-lazy-popup-', rendered)
         self.assertIn('data-bs-toggle="modal"', rendered)
         self.assertIn('hx-get', rendered)
 
     def test_renders_custom_button_label(self):
-        template = Template('{% load async_tags %}{% async_lazy_popup name_button="Open Details" %}')
-        rendered = template.render(Context())
+        rendered = lazy_popup_tpl(
+            'name_button="Open Details" content_url="/demo/"'
+        ).render(Context())
 
         self.assertIn('Open Details', rendered)
 
     def test_renders_custom_title(self):
-        template = Template('{% load async_tags %}{% async_lazy_popup title="My Title" %}')
-        rendered = template.render(Context())
+        rendered = lazy_popup_tpl(
+            'title="My Title" content_url="/demo/"'
+        ).render(Context())
 
         self.assertIn('My Title', rendered)
 
     def test_renders_custom_content_url(self):
-        template = Template('{% load async_tags %}{% async_lazy_popup content_url="/my/url/" %}')
-        rendered = template.render(Context())
+        rendered = lazy_popup_tpl('content_url="/my/url/"').render(Context())
 
         self.assertIn('/my/url/', rendered)
 
     def test_renders_size_modifier(self):
-        template = Template('{% load async_tags %}{% async_lazy_popup size="lg" %}')
-        rendered = template.render(Context())
+        rendered = lazy_popup_tpl(
+            'size="lg" content_url="/demo/"'
+        ).render(Context())
 
         self.assertIn('modal-lg', rendered)
 
     def test_renders_no_size_modifier_by_default(self):
-        template = Template("{% load async_tags %}{% async_lazy_popup %}")
-        rendered = template.render(Context())
+        rendered = lazy_popup_tpl('content_url="/demo/"').render(Context())
 
         self.assertNotIn('modal-sm', rendered)
         self.assertNotIn('modal-lg', rendered)
         self.assertNotIn('modal-xl', rendered)
 
     def test_renders_htmx_trigger_on_modal_show_event(self):
-        template = Template("{% load async_tags %}{% async_lazy_popup %}")
-        rendered = template.render(Context())
+        rendered = lazy_popup_tpl('content_url="/demo/"').render(Context())
 
         self.assertIn('show.bs.modal', rendered)
         self.assertIn('hx-trigger', rendered)
 
-    def test_renders_spinner_as_initial_content(self):
-        template = Template("{% load async_tags %}{% async_lazy_popup %}")
-        rendered = template.render(Context())
+    def test_renders_block_content_as_initial_placeholder(self):
+        rendered = lazy_popup_tpl(
+            'content_url="/demo/"',
+            block='<span class="custom-loader">Loading...</span>',
+        ).render(Context())
 
-        self.assertIn('spinner-border', rendered)
+        self.assertIn('custom-loader', rendered)
 
 
 class LazyPopupPageTests(SimpleTestCase):

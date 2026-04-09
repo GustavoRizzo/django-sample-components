@@ -1,13 +1,10 @@
 {# Bootstrap 5 modal with HTMX lazy-loaded body content. #}
 {# The modal body content is fetched only when the modal is opened. #}
-{% load sample_tags i18n %}
+{% load sample_tags %}
 {% simple_popup name_button=name_button title=title id_modal=id_modal id_button=id_button size=size %}
     <div hx-get="{{ content_url }}"
          hx-trigger="show.bs.modal from:#{{ id_modal }}"
          hx-swap="{% if always_reload_on_open %}innerHTML{% else %}outerHTML{% endif %}">
-        <div class="d-flex align-items-center gap-2 text-muted">
-            <div class="spinner-border spinner-border-sm" role="status" aria-label="Loading"></div>
-            <span>{% trans "Loading..." %}</span>
-        </div>
+        {{ slot }}
     </div>
 {% endsimple_popup %}
