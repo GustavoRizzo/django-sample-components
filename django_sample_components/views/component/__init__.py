@@ -1,4 +1,5 @@
 from .active_search_component import ActiveSearchComponentView
+from .base import BaseCreateFormComponentView, BaseFormComponentView
 from .counter_component import CounterComponentView
 from .dynamic_forms_sum_component import DynamicFormsSumComponentView
 from .dynamic_registration_form_component import (
@@ -16,6 +17,8 @@ from .toast_demo_component import ToastDemoComponentView
 
 __all__ = [
     'ActiveSearchComponentView',
+    'BaseCreateFormComponentView',
+    'BaseFormComponentView',
     'CheckSubjectPartialView',
     'CheckUsernamePartialView',
     'CounterComponentView',

@@ -17,6 +17,7 @@ urlpatterns = [
     path('lazy-load/', LazyLoadComponentView.as_view(), name='lazy_load'),
     path('lazy-load/external/', LazyLoadExternalComponentView.as_view(), name='lazy_load_external'),
     path('lazy-popup/component/', LazyPopupComponentView.as_view(), name='lazy_popup_component'),
-    path('popup-registration/component/', PopupRegistrationFormComponentView.as_view(), name='popup_registration_form_component'),
+    path('popup-registration/component/', PopupRegistrationFormComponentView.as_view(),
+         name='popup_registration_form_component'),
     path('toast/component/', ToastDemoComponentView.as_view(), name='toast_demo_component'),
 ]

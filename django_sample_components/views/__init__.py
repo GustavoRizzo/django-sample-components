@@ -1,5 +1,7 @@
 from .component import (
     ActiveSearchComponentView,
+    BaseCreateFormComponentView,
+    BaseFormComponentView,
     CheckSubjectPartialView,
     CheckUsernamePartialView,
     CounterComponentView,
@@ -14,6 +16,8 @@ from .component import (
 
 __all__ = [
     'ActiveSearchComponentView',
+    'BaseCreateFormComponentView',
+    'BaseFormComponentView',
     'CheckSubjectPartialView',
     'CheckUsernamePartialView',
     'CounterComponentView',
