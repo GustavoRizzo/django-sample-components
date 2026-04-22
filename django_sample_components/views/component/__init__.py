@@ -12,6 +12,7 @@ from .lazy_popup_component import LazyPopupComponentView
 from .popup_registration_form_component import (
     PopupRegistrationFormComponentView,
 )
+from .toast_demo_component import ToastDemoComponentView
 
 __all__ = [
     'ActiveSearchComponentView',
@@ -24,4 +25,5 @@ __all__ = [
     'LazyPopupComponentView',
     'PopupRegistrationFormComponentView',
     'RegistrationFormComponentView',
+    'ToastDemoComponentView',
 ]

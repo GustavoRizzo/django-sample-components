@@ -51,6 +51,22 @@
         <hr>
 
         <section class="mt-4">
+            <h5>Multiple Toasts — via Django Messages + HTMX</h5>
+            <p>
+                The button below fires an HTMX request to the server. The view queues three Django messages and converts
+                them into a single <code>HX-Trigger: &#123;"showToasts": [...]&#125;</code> header using
+                <code>convert_django_messages_to_hx_triggers</code> from <code>django_sample_components.utils</code>.
+            </p>
+            <button class="btn btn-secondary btn-sm"
+                    hx-get="{% url 'django_sample_components:toast_demo_component' %}"
+                    hx-swap="none">
+                Show multiple toasts
+            </button>
+        </section>
+
+        <hr>
+
+        <section class="mt-4">
             <h5>Usage</h5>
             <pre class="bg-light p-3 rounded"><code>{% verbatim %}{% load sample_tags %}
 
@@ -66,7 +82,16 @@ messages.success(request, "Saved!")
 {# 3. Plain JS #}{% endverbatim %}
 window.showToast("Hello!", "success")
 {% verbatim %}
-{# 4. HTMX — from the view: #}{% endverbatim %}
-response["HX-Trigger"] = json.dumps(&#123;"showToast": &#123;"message": "Done!", "type": "success"&#125;&#125;)</code></pre>
+{# 4. HTMX — single toast from the view: #}{% endverbatim %}
+from django_sample_components.utils import get_json_show_toast
+response["HX-Trigger"] = json.dumps(get_json_show_toast("Done!", "success"))
+{% verbatim %}
+{# 5. HTMX — multiple toasts from the view: #}{% endverbatim %}
+from django_sample_components.utils import convert_django_messages_to_hx_triggers
+messages.success(request, "Saved!")
+messages.warning(request, "Check the warnings.")
+trigger = convert_django_messages_to_hx_triggers(request)
+if trigger:
+    response["HX-Trigger"] = json.dumps(trigger)</code></pre>
         </section>
 {% endblock %}

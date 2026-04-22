@@ -9,6 +9,7 @@ from .component import (
     LazyPopupComponentView,
     PopupRegistrationFormComponentView,
     RegistrationFormComponentView,
+    ToastDemoComponentView,
 )
 
 __all__ = [
@@ -22,4 +23,5 @@ __all__ = [
     'LazyPopupComponentView',
     'PopupRegistrationFormComponentView',
     'RegistrationFormComponentView',
+    'ToastDemoComponentView',
 ]

@@ -75,8 +75,17 @@
 
     {# HTMX: listen for HX-Trigger: {"showToast": {"message": "...", "type": "..."}} #}
     document.addEventListener('showToast', function (event) {
-      var detail = event.detail || {};
+      var detail = (event.detail && event.detail.value) ? event.detail.value : (event.detail || {});
       showToast(detail.message || '', detail.type || 'info');
+    });
+
+    {# HTMX: listen for HX-Trigger: {"showToasts": [{"message": "...", "type": "..."}, ...]} #}
+    document.addEventListener('showToasts', function (event) {
+      var toasts = (event.detail && event.detail.value) ? event.detail.value : event.detail;
+      if (!Array.isArray(toasts)) return;
+      toasts.forEach(function (item) {
+        showToast(item.message || '', item.type || 'info');
+      });
     });
 
     window.showToast = showToast;
