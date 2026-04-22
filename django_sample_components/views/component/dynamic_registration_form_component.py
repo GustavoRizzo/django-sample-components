@@ -1,11 +1,13 @@
 import json
 
+from django.contrib import messages
 from django.http import HttpResponseBadRequest
 from django.shortcuts import render
 from django.views import View
 from django.views.generic.edit import FormView
 
 from django_sample_components.forms.registration_form import SUBJECT_CAPACITY, TAKEN_USERNAMES, RegistrationForm
+from django_sample_components.utils import convert_django_messages_to_hx_triggers
 
 
 class RegistrationFormComponentView(FormView):
@@ -17,29 +19,19 @@ class RegistrationFormComponentView(FormView):
             return HttpResponseBadRequest()
         return super().post(request, *args, **kwargs)
 
-    def form_valid(self, form):
-        response = self.render_to_response(self.get_context_data(form=form, success=True))
-        response["HX-Trigger"] = json.dumps(
-            {
-                "showToast": {
-                    "message": "Registration submitted successfully!",
-                    "type": "success",
-                }
-            }
-        )
+    def _set_hx_trigger(self, response):
+        trigger = convert_django_messages_to_hx_triggers(self.request)
+        if trigger:
+            response["HX-Trigger"] = json.dumps(trigger)
         return response
 
+    def form_valid(self, form):
+        messages.success(self.request, "Registration submitted successfully!")
+        return self._set_hx_trigger(self.render_to_response(self.get_context_data(form=form, success=True)))
+
     def form_invalid(self, form):
-        response = self.render_to_response(self.get_context_data(form=form))
-        response["HX-Trigger"] = json.dumps(
-            {
-                "showToast": {
-                    "message": "Please fix the errors in the form.",
-                    "type": "error",
-                }
-            }
-        )
-        return response
+        messages.error(self.request, "Please fix the errors in the form.")
+        return self._set_hx_trigger(self.render_to_response(self.get_context_data(form=form)))
 
 
 class CheckUsernamePartialView(View):
