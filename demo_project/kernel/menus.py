@@ -23,4 +23,5 @@ Menu.add_item("main", MenuItem("Async", "#", weight=30, children=[
 Menu.add_item("main", MenuItem("Dynamic Forms", "#", weight=40, children=[
     MenuItem("Sum Form", reverse_lazy("dynamic_forms_sum"), weight=10),
     MenuItem("Registration Form", reverse_lazy("registration_form"), weight=20),
+    MenuItem("Popup Registration Form", reverse_lazy("popup_registration_form"), weight=30),
 ]))

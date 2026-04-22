@@ -9,6 +9,9 @@ from .dynamic_registration_form_component import (
 from .lazy_load_component import LazyLoadComponentView
 from .lazy_load_external_component import LazyLoadExternalComponentView
 from .lazy_popup_component import LazyPopupComponentView
+from .popup_registration_form_component import (
+    PopupRegistrationFormComponentView,
+)
 
 __all__ = [
     'ActiveSearchComponentView',
@@ -19,5 +22,6 @@ __all__ = [
     'LazyLoadComponentView',
     'LazyLoadExternalComponentView',
     'LazyPopupComponentView',
+    'PopupRegistrationFormComponentView',
     'RegistrationFormComponentView',
 ]

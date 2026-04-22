@@ -7,6 +7,7 @@ from .component import (
     LazyLoadComponentView,
     LazyLoadExternalComponentView,
     LazyPopupComponentView,
+    PopupRegistrationFormComponentView,
     RegistrationFormComponentView,
 )
 
@@ -19,5 +20,6 @@ __all__ = [
     'LazyLoadComponentView',
     'LazyLoadExternalComponentView',
     'LazyPopupComponentView',
+    'PopupRegistrationFormComponentView',
     'RegistrationFormComponentView',
 ]

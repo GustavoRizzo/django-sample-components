@@ -1,0 +1,42 @@
+{% extends "django_sample_components/pages/master_async.html" %}
+{% load async_tags sample_tags %}
+
+{% block title %}Popup Registration Form{% endblock %}
+
+{% block page_title %}Popup Registration Form{% endblock %}
+
+{% block page_intro %}A lazy popup that fetches a fresh registration form from the server every time it opens.{% endblock %}
+
+{% block content %}
+    {% simple_toast position="top-end" %}
+
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Default</h5>
+            <p>Click the button to open the modal. The registration form is loaded on demand.</p>
+            <div class="mt-3">
+                {% async_popup_registration_form %}
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <h5>Custom label and size</h5>
+            <p>Pass <code>name_button</code>, <code>title</code>, and <code>size</code> to customise the modal.</p>
+            <div class="mt-3">
+                {% async_popup_registration_form name_button="Sign Up" title="Create Account" size="lg" %}
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <section class="mt-5">
+        <h5>How It Works</h5>
+        <ul>
+            <li>Clicking the button opens a Bootstrap modal immediately</li>
+            <li>Bootstrap fires <code>show.bs.modal</code>, which triggers an HTMX <code>GET</code> to fetch the registration form</li>
+            <li>The form is re-fetched on every open (<code>always_reload_on_open=True</code>), so the user always starts fresh</li>
+            <li>Field validation (username, subject) and form submission work exactly as in the standalone registration form</li>
+        </ul>
+    </section>
+{% endblock %}

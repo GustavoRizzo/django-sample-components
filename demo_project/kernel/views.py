@@ -90,6 +90,11 @@ class HtmxLoaderPage(View):
         return render(request, 'django_sample_components/pages/htmx_loader.html')
 
 
+class PopupRegistrationFormPage(View):
+    def get(self, request):
+        return render(request, 'django_sample_components/pages/popup_registration_form.html')
+
+
 class LazyLoadPage(View):
     def get(self, request):
         return render(request, 'django_sample_components/pages/lazy_load.html')
