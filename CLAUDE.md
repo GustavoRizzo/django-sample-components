@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Memory
+
+Save any project-specific memories locally inside `.claude/memory/` within this project directory — not in the global `~/.claude/` folder.
+
 ## Project Overview
 
 This is a reusable Django library (`django-sample-components`) that provides UI components (template tags, templates, static assets) for use across Django projects. It is published to PyPI and versioned with Poetry.
@@ -25,7 +29,7 @@ poetry run task run-demo
 # Run a single test
 cd demo_project && python manage.py test kernel.tests.test_loadpage.HomePageTests.test_home_page
 
-# Collect static files (required after changing CSS/JS)
+# Collect static files (required after changing CSS/JS/SVG)
 poetry run task collectstatic
 ```
 
@@ -60,11 +64,14 @@ django_sample_components/   # Installable package
 │   └── partials/               # Shared partials (menu, HTMX partial responses)
 ├── static/
 │   ├── css/components/         # Per-component CSS (linked from component templates)
-│   └── js/components/          # Per-component JS
+│   ├── js/components/          # Per-component JS
+│   └── img/                    # Project-wide images (e.g. favicon.svg)
 ├── views/
 │   ├── __init__.py             # Public view exports
 │   ├── pages.py                # CBVs for demo pages (all page classes use *Page suffix)
 │   └── component/              # CBVs for HTMX endpoints (one file per component)
+│       └── base.py             # BaseFormComponentView / BaseCreateFormComponentView
+└── utils.py                    # Shared helpers: toast HX-Trigger payload builders
 
 demo_project/                   # Development/testing Django project
 ├── kernel/settings.py          # Installs django_sample_components
@@ -79,9 +86,11 @@ demo_project/                   # Development/testing Django project
 
 **Component pattern:** Each component consists of a template tag in `templatetags/sample_tags/` (or `async_tags/`), a template in `templates/django_sample_components/components/`, and optionally a CSS file in `static/css/components/` linked via `<link>` inside the component template. Block tags pass rendered content + context to a component template via `django.template.loader.render_to_string`.
 
-**CSS co-location:** Each component that requires custom CSS has its own file in `static/css/components/` (e.g. `async_counter.css`). The `<link>` tag is placed inside the component template itself (not in the page template), so consumers automatically get the styles when they use the tag. Run `poetry run task collectstatic` after adding or changing CSS files.
+**CSS co-location:** Each component that requires custom CSS has its own file in `static/css/components/` (e.g. `async_counter.css`). The `<link>` tag is placed inside the component template itself (not in the page template), so consumers automatically get the styles when they use the tag. Run `poetry run task collectstatic` after adding or changing CSS/JS/SVG files.
 
 **Template tag registration:** Tags are registered in `templatetags/sample_tags/__init__.py` (or `async_tags/__init__.py`) using Django's `register = template.Library()` pattern.
+
+**Favicon:** `static/img/favicon.svg` — SVG favicon referenced in `demo_project/templates/django_sample_components/pages/master.html`. All pages inherit it because `master_async.html` extends `master.html`.
 
 ## Async Components (HTMX)
 
@@ -105,6 +114,40 @@ Async components are intentionally kept separate from static components to allow
 - `{% htmx_script %}` — renders a `<script>` tag pointing to the htmx.js bundled with the package (no CDN dependency). The htmx version is determined by the installed `django-htmx` version.
 - `{% django_htmx_script %}` — renders the Django↔HTMX integration script.
 - CSRF is handled declaratively via `hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'` on the `<body>` tag in `master_async.html` — no JavaScript event listener needed.
+
+## Base Form Component Views (`views/component/base.py`)
+
+Two base CBVs for HTMX form endpoints. Both enforce the `HX-Request` header on POST.
+
+**`BaseFormComponentView`** — extends `FormView`. On valid/invalid submission it:
+1. Queues a Django message (`success_message` / `error_message`).
+2. Converts queued messages to an `HX-Trigger` header via `convert_django_messages_to_hx_triggers`.
+3. Renders the component template with `form_valid=True` or `form_invalid=True` in context.
+
+Override `get_success_message` / `get_error_message` (returning `None`) to suppress the toast entirely. Override `get_success_context` / `get_error_context` to add extra context keys.
+
+**`BaseCreateFormComponentView`** — extends `BaseFormComponentView`. Calls `form.save()` on success and adds the created instance as `object` in the success context.
+
+## Toast Utilities (`utils.py`)
+
+Helper functions for building `HX-Trigger` payloads that fire toast notifications in the browser.
+
+| Function | Returns |
+|---|---|
+| `get_json_show_toast(message, toast_type)` | `{"showToast": {"message": ..., "type": ...}}` |
+| `get_json_show_toasts(items)` | `{"showToasts": [...]}` — for multiple toasts |
+| `convert_django_messages_to_hx_triggers(request)` | Consumes Django messages queue and returns the appropriate payload dict (empty, single, or multiple) |
+
+Valid `toast_type` values: `success`, `error`, `danger`, `warning`, `info`, `primary`, `secondary`.
+
+`convert_django_messages_to_hx_triggers` is used internally by `BaseFormComponentView`. Call it directly in custom views that need to trigger toasts from Django's messages framework.
+
+```python
+import json
+from django_sample_components.utils import get_json_show_toast
+
+response["HX-Trigger"] = json.dumps(get_json_show_toast("Saved!", "success"))
+```
 
 ## Available Tags
 
