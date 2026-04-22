@@ -153,6 +153,74 @@ If you are not extending `master_async.html`, add the following to your base tem
 | Best for | Simple UI elements | Interactive, live, or heavy-content components |
 
 
+## Building your own async form components
+
+The library exposes base classes and utilities to help you build HTMX form endpoints that integrate with the toast system.
+
+### Base views (`django_sample_components.views.component.base`)
+
+**`BaseFormComponentView`** — extends Django's `FormView`. Enforces the `HX-Request` header on POST, queues toast notifications automatically, and provides override hooks.
+
+```python
+from django_sample_components.views.component.base import BaseFormComponentView
+
+class MyFormView(BaseFormComponentView):
+    template_name = "myapp/components/my_form.html"
+    form_class = MyForm
+    success_message = "Saved!"
+    error_message = "Please fix the errors."
+
+    def get_success_context(self, form):
+        ctx = super().get_success_context(form)
+        ctx["result"] = form.compute_result()
+        return ctx
+```
+
+**`BaseCreateFormComponentView`** — extends `BaseFormComponentView`. Calls `form.save()` on success and adds the created instance as `object` in the success context. Suitable for `ModelForm`-based components.
+
+```python
+from django_sample_components.views.component.base import BaseCreateFormComponentView
+
+class MyModelFormView(BaseCreateFormComponentView):
+    template_name = "myapp/components/my_model_form.html"
+    form_class = MyModelForm
+    success_message = "Record created!"
+```
+
+See [docs/async/base_form_component_view.md](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/async/base_form_component_view.md) for full reference.
+
+### Toast utilities (`django_sample_components.utils`)
+
+Helper functions to build `HX-Trigger` payloads that fire toast notifications in the browser via `showToast` / `showToasts` events.
+
+```python
+import json
+from django_sample_components.utils import (
+    get_json_show_toast,
+    get_json_show_toasts,
+    convert_django_messages_to_hx_triggers,
+)
+
+# Single toast
+response["HX-Trigger"] = json.dumps(get_json_show_toast("Saved!", "success"))
+
+# Multiple toasts at once
+response["HX-Trigger"] = json.dumps(get_json_show_toasts([
+    {"message": "Record saved.", "type": "success"},
+    {"message": "Email notification sent.", "type": "info"},
+]))
+
+# Convert Django messages queue to HX-Trigger (used internally by BaseFormComponentView)
+trigger = convert_django_messages_to_hx_triggers(request)
+if trigger:
+    response["HX-Trigger"] = json.dumps(trigger)
+```
+
+Valid toast types: `success`, `error`, `danger`, `warning`, `info`, `primary`, `secondary`.
+
+See [docs/utils.md](https://github.com/GustavoRizzo/django-sample-components/blob/main/docs/utils.md) for full reference.
+
+
 ## Running locally
 
 ```bash

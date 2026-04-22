@@ -18,23 +18,44 @@ This tag takes no parameters.
 
 ## Endpoint flow
 
-Main submit endpoint:
+The main submit view extends [`BaseFormComponentView`](base_form_component_view.md), so toast notifications and context injection are handled automatically.
+
+**Main submit endpoint:**
 
 - `POST /async/dynamic-forms/registration/component/`
-- Returns the full component (`outerHTML` pattern).
-- Triggers `showToast` via `HX-Trigger` header:
-  - success: `"Registration submitted successfully!"`
-  - error: `"Please fix the errors in the form."`
+- Re-renders the full component via `outerHTML` swap.
+- On success: triggers `showToast` — `"Registration submitted successfully!"`
+- On error: triggers `showToast` — `"Please fix the errors in the form."`
 
-Per-field validation endpoints:
+**Per-field validation endpoints:**
 
-- `GET /async/dynamic-forms/registration/check-username/`
-- `GET /async/dynamic-forms/registration/check-subject/`
+| Endpoint | Trigger | Behaviour |
+|---|---|---|
+| `GET /async/dynamic-forms/registration/check-username/` | `hx-trigger="keyup changed delay:400ms"` on username field | Returns a partial snippet when `len(username) > 3` |
+| `GET /async/dynamic-forms/registration/check-subject/` | `hx-trigger="change"` on subject field | Returns a partial snippet with capacity status |
 
-Both endpoints:
+Both validation endpoints require the `HX-Request` header — return `400` otherwise.
 
-- Require HTMX request headers.
-- Return partial snippets used by the form.
+## Context keys (template)
+
+| Key | Present when | Description |
+|---|---|---|
+| `form` | always | The bound or unbound `RegistrationForm` |
+| `form_valid` | after successful submit | `True` |
+| `form_invalid` | after failed submit | `True` |
+| `success` | after successful submit | `True` — use to show a confirmation message in the template |
+
+## Username validation rules
+
+- Check triggers only when `len(username) > 3`.
+- Returns "Username is available." or "That username is already taken."
+
+## Subject validation rules
+
+- Returns one of three states based on `SUBJECT_CAPACITY`:
+  - **Full** — 0 spots remaining → invalid message.
+  - **Almost full** — ≤ 3 spots remaining → warning message.
+  - **Available** — shows remaining spot count.
 
 ## Example
 
@@ -46,5 +67,6 @@ Both endpoints:
 
 ## Notes
 
-- Username check starts after user input is longer than 3 characters.
-- Subject check reports full/almost-full/available states based on configured capacity.
+- Requires `{% simple_toast %}` somewhere in the page for toast notifications to appear.
+- The endpoint rejects non-HTMX POST requests with `400`.
+- `TAKEN_USERNAMES` and `SUBJECT_CAPACITY` are demo fixtures defined in `forms/registration_form.py` — replace with real database queries in production use.
