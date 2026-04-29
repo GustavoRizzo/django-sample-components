@@ -10,9 +10,18 @@ Save any project-specific memories locally inside `.claude/memory/` within this 
 
 This is a reusable Django library (`django-sample-components`) that provides UI components (template tags, templates, static assets) for use across Django projects. It is published to PyPI and versioned with Poetry.
 
+## Environment
+
+All Python execution must go through Poetry — never call `python` or `manage.py` directly. Poetry manages the virtualenv and ensures the correct interpreter and dependencies are used.
+
+```bash
+poetry install          # install/sync dependencies (run once after cloning)
+cd demo_project && poetry run python manage.py migrate   # apply migrations (required on first run)
+```
+
 ## Commands
 
-All tasks are run via [taskipy](https://github.com/illBeRoy/taskipy) or directly:
+All tasks are run via [taskipy](https://github.com/illBeRoy/taskipy) under Poetry:
 
 ```bash
 # Linting
@@ -22,12 +31,12 @@ poetry run task lint-fix      # ruff check --fix
 # Testing (runs Django test suite in demo_project)
 poetry run task test
 
-# Run demo server
+# Run demo server (append a port if 8000 is already in use, e.g. 8002)
 poetry run task run-demo
-# or: cd demo_project && python manage.py runserver
+poetry run task run-demo 8002
 
 # Run a single test
-cd demo_project && python manage.py test kernel.tests.test_loadpage.HomePageTests.test_home_page
+cd demo_project && poetry run python manage.py test kernel.tests.test_loadpage.HomePageTests.test_home_page
 
 # Collect static files (required after changing CSS/JS/SVG)
 poetry run task collectstatic

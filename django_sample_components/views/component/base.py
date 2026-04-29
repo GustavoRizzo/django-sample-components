@@ -4,7 +4,7 @@ from typing import Any
 from django.contrib import messages
 from django.forms import BaseForm, ModelForm
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, CreateView
 
 from django_sample_components.utils import convert_django_messages_to_hx_triggers
 
