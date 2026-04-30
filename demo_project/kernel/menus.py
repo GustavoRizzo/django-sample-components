@@ -18,6 +18,7 @@ Menu.add_item("main", MenuItem("Async", "#", weight=30, children=[
     MenuItem("Active Search", reverse_lazy("active_search"), weight=30),
     MenuItem("Lazy Popup", reverse_lazy("lazy_popup"), weight=40),
     MenuItem("HTMX Loader", reverse_lazy("htmx_loader"), weight=50),
+    MenuItem("Dynamic Content Button", reverse_lazy("dynamic_content_button"), weight=60),
 ]))
 
 Menu.add_item("main", MenuItem("Dynamic Forms", "#", weight=40, children=[

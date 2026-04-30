@@ -95,6 +95,15 @@ class PopupRegistrationFormPage(View):
         return render(request, 'django_sample_components/pages/popup_registration_form.html')
 
 
+class DynamicContentButtonPage(View):
+    def get(self, request):
+        context = {
+            'script_url': reverse('django_sample_components:dynamic_content_button_script'),
+            'modal_url': reverse('django_sample_components:dynamic_content_button_modal'),
+        }
+        return render(request, 'django_sample_components/pages/dynamic_content_button.html', context)
+
+
 class LazyLoadPage(View):
     def get(self, request):
         return render(request, 'django_sample_components/pages/lazy_load.html')

@@ -3,6 +3,8 @@ from django.urls import include, path
 from ..views import (
     ActiveSearchComponentView,
     CounterComponentView,
+    DynamicContentButtonModalResponseView,
+    DynamicContentButtonScriptResponseView,
     LazyLoadComponentView,
     LazyLoadExternalComponentView,
     LazyPopupComponentView,
@@ -13,6 +15,10 @@ from ..views import (
 urlpatterns = [
     path('active-search/component/', ActiveSearchComponentView.as_view(), name='active_search_component'),
     path('counter/component/', CounterComponentView.as_view(), name='counter_component'),
+    path('dynamic-content-button/modal/', DynamicContentButtonModalResponseView.as_view(),
+         name='dynamic_content_button_modal'),
+    path('dynamic-content-button/script/', DynamicContentButtonScriptResponseView.as_view(),
+         name='dynamic_content_button_script'),
     path('dynamic-forms/', include('django_sample_components.urls.dynamic_forms_urls')),
     path('lazy-load/', LazyLoadComponentView.as_view(), name='lazy_load'),
     path('lazy-load/external/', LazyLoadExternalComponentView.as_view(), name='lazy_load_external'),

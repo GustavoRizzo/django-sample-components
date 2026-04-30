@@ -23,6 +23,7 @@ urlpatterns = [
     path('async/lazy-popup/', views.LazyPopupPage.as_view(), name='lazy_popup'),
     path('async/dynamic-forms/sum/', views.DynamicFormsSumPage.as_view(), name='dynamic_forms_sum'),
     path('async/dynamic-forms/registration/', views.RegistrationFormPage.as_view(), name='registration_form'),
+    path('async/dynamic-content-button/', views.DynamicContentButtonPage.as_view(), name='dynamic_content_button'),
     path('async/popup-registration/', views.PopupRegistrationFormPage.as_view(), name='popup_registration_form'),
     # Library component endpoints
     path('', include(component_urls)),

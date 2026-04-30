@@ -1,6 +1,10 @@
 from .active_search_component import ActiveSearchComponentView
 from .base import BaseCreateFormComponentView, BaseFormComponentView
 from .counter_component import CounterComponentView
+from .dynamic_content_button_component import (
+    DynamicContentButtonModalResponseView,
+    DynamicContentButtonScriptResponseView,
+)
 from .dynamic_forms_sum_component import DynamicFormsSumComponentView
 from .dynamic_registration_form_component import (
     CheckSubjectPartialView,
@@ -22,6 +26,8 @@ __all__ = [
     'CheckSubjectPartialView',
     'CheckUsernamePartialView',
     'CounterComponentView',
+    'DynamicContentButtonModalResponseView',
+    'DynamicContentButtonScriptResponseView',
     'DynamicFormsSumComponentView',
     'LazyLoadComponentView',
     'LazyLoadExternalComponentView',

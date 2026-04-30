@@ -1,0 +1,14 @@
+{% load sample_tags %}
+
+{% simple_modal id_modal="dcb-demo-modal" title="Modal loaded from the server" size="lg" %}
+    <p>This modal was <strong>not rendered with the page</strong>. It was fetched from the server only when you clicked the button and injected into the DOM via <code>hx-swap="beforeend"</code>.</p>
+    <p class="mb-0 text-body-secondary small">The server response can return anything: a modal, a script, a form — the browser just appends it to <code>&lt;body&gt;</code>.</p>
+{% endsimple_modal %}
+
+<script>
+    (function () {
+        var el = document.getElementById('dcb-demo-modal');
+        bootstrap.Modal.getOrCreateInstance(el).show();
+        el.addEventListener('hidden.bs.modal', function () { el.remove(); }, { once: true });
+    }());
+</script>
