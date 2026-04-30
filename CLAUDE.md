@@ -185,9 +185,12 @@ response["HX-Trigger"] = json.dumps(get_json_show_toast("Saved!", "success"))
 | `async_counter` | simple_tag | `{% async_counter initial_value=0 step=1 min_value=0 max_value=10 %}` |
 | `async_lazy_load` | simple_tag | `{% async_lazy_load url="/async/lazy-load/" delay_ms=1200 %}` |
 | `async_active_search` | simple_tag | `{% async_active_search placeholder="Search..." min_chars=1 search_url="/custom/" %}` |
-| `async_lazy_popup` | simple_tag | `{% async_lazy_popup name_button="Open" title="Title" content_url="/url/" size="lg" always_reload_on_open=True %}` |
+| `async_lazy_popup` | simple_block_tag | `{% async_lazy_popup name_button="Open" title="Title" content_url="/url/" size="lg" always_reload_on_open=True %}` |
 | `async_sum_form` | simple_tag | `{% async_sum_form %}` |
 | `async_registration_form` | simple_tag | `{% async_registration_form %}` |
+| `async_dynamic_content_button` | simple_tag | `{% async_dynamic_content_button content_url="/url/" name_button="Open" icon_button="bi bi-plus" %}` |
+| `async_htmx_loader` | simple_tag | `{% async_htmx_loader url_htmx="/url/" hx_trigger="load" text_preload="Loading..." %}` |
+| `async_popup_registration_form` | simple_tag | `{% async_popup_registration_form name_button="Register" title="Sign Up" size="lg" %}` |
 
 **`async_counter`** — counter with +/− buttons. HTMX POSTs to `/async/counter/component/` on each click. Use `CounterComponentView.get_url(initial_value, step, min_value, max_value)` to generate the component URL programmatically.
 
@@ -203,6 +206,12 @@ response["HX-Trigger"] = json.dumps(get_json_show_toast("Saved!", "success"))
 **`async_sum_form`** — interactive sum form built with crispy-forms. Posts to `/async/dynamic-forms/sum/component/` and updates in place.
 
 **`async_registration_form`** — interactive registration form with per-field HTMX validation (`username` and `subject`) and toast triggers on submit.
+
+**`async_dynamic_content_button`** — button that performs a `GET` to `content_url` via HTMX and appends the server response to `<body>`. The server controls the outcome (e.g. open a modal, inject a script). Supports `name_button`, `class_button`, and `icon_button`.
+
+**`async_htmx_loader`** — generic HTMX `GET` loader with a Bootstrap spinner. Fires on `hx_trigger` (default: `"load"`) and replaces itself with the server response. Supports custom `id_target`, `hx_on_after_swap`, and `text_preload`.
+
+**`async_popup_registration_form`** — Bootstrap modal button that lazy-loads the registration form on open (`always_reload_on_open=True`). Thin wrapper around `async_lazy_popup` pointing at the built-in registration endpoint.
 
 ## Versioning & Publishing
 
