@@ -1,32 +1,9 @@
-{# Bootstrap 5 modal component. Docs: https://getbootstrap.com/docs/5.0/components/modal/ #}
-{% load i18n %}
+{# Bootstrap 5 modal with a built-in trigger button. Docs: https://getbootstrap.com/docs/5.0/components/modal/ #}
+{% load sample_tags %}
 
-{# Button trigger modal #}
 <button type="button" data-bs-toggle="modal" data-bs-target="#{{ id_modal }}" id="{{ id_button }}"
     class="{{ class_button }}">
     {{ name_button }}
 </button>
 
-{# Modal #}
-<div class="modal fade" id="{{ id_modal }}" tabindex="-1" aria-labelledby="{{ id_modal }}-label" aria-hidden="true">
-    <div class="modal-dialog{% if size %} modal-{{ size }}{% endif %}">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-xl" id="{{ id_modal }}-label">{{ title }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{% trans 'Close' %}"></button>
-            </div>
-            <div class="modal-body">
-                {{ slot|default:'...' }}
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const modal = document.getElementById("{{ id_modal }}");
-        if (modal && modal.parentNode !== document.body) {
-            document.body.appendChild(modal);
-        }
-    });
-</script>
+{% simple_modal id_modal=id_modal title=title size=size %}{{ slot }}{% endsimple_modal %}

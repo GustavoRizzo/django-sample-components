@@ -171,9 +171,12 @@ response["HX-Trigger"] = json.dumps(get_json_show_toast("Saved!", "success"))
 | `simple_toast` | simple_tag | `{% simple_toast position="bottom-end" autohide=True delay=6000 %}` |
 | `shout` | simple_block_tag | `{% shout %}...{% endshout %}` |
 | `simple_alert` | simple_block_tag | `{% simple_alert type="info" %}...{% endsimple_alert %}` |
+| `simple_modal` | simple_block_tag | `{% simple_modal id_modal="my-modal" title="Title" size="lg" %}...{% endsimple_modal %}` |
 | `simple_popup` | simple_block_tag | `{% simple_popup name_button="Open" title="Title" size="lg" %}...{% endsimple_popup %}` |
 
-**`simple_popup`** accepts `size` (`"sm"`, `"lg"`, `"xl"`) for Bootstrap modal size. Requires Bootstrap JS. Internally uses `_build_modal_base_context` (importable by async tags).
+**`simple_modal`** — renders a Bootstrap 5 modal without a trigger button. `id_modal` is **required** so the caller can wire up any trigger via `data-bs-target="#<id_modal>"`. Accepts `size` (`"sm"`, `"lg"`, `"xl"`). Requires Bootstrap JS.
+
+**`simple_popup`** — convenience wrapper: renders a trigger button + modal in one tag. Accepts `size` (`"sm"`, `"lg"`, `"xl"`). Internally renders `simple_modal.html` via `{% include %}`. Requires Bootstrap JS. The helper `_build_modal_base_context` is importable by async tags.
 
 ### Async (`{% load async_tags %}`)
 
