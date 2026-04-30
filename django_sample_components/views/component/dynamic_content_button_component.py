@@ -7,7 +7,10 @@ class DynamicContentButtonScriptResponseView(View):
     def get(self, request):
         if not request.htmx:
             return HttpResponseBadRequest()
-        script = "<script>alert('Hello from the server! The button fetched this script and it ran immediately.');</script>"
+        script = (
+            "<script>alert('Hello from the server! The button fetched this script and it ran "
+            "immediately.');</script>"
+        )
         return HttpResponse(script)
 
 
