@@ -1,0 +1,8 @@
+<button
+  type="button"
+  hx-get="{{ content_url }}"
+  hx-target="body"
+  hx-swap="beforeend"
+  class="{{ class_button }}">
+  {% if icon_button %}<i class="{{ icon_button }}"></i> {% endif %}{{ name_button }}
+</button>
