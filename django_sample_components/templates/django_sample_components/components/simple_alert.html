@@ -1,5 +1,5 @@
 <div
-    class="simple-alert alert {{ alert_class }} alert-outline-{{ text_class }} d-flex justify-content-between align-items-center animate-slide-down"
+    class="simple-alert alert {{ alert_class }} alert-outline-{{ text_class }} d-flex align-items-center animate-slide-down{% if close_button %} justify-content-between{% endif %}"
     role="alert">
     <div class="d-flex align-items-center">
         <span class="alert-icon bg-{{ text_class }} rounded bg-opacity-10 me-3 d-flex align-items-center justify-content-center">
@@ -9,5 +9,7 @@
             {{ slot_content }}
         </p>
     </div>
-    {% comment %} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> {% endcomment %}
+    {% if close_button %}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    {% endif %}
 </div>

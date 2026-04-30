@@ -1,10 +1,16 @@
+from typing import Literal
+
 from django.template.loader import render_to_string
 from django.utils.safestring import SafeString
 
 
+AlertType = Literal['info', 'warning', 'danger', 'success']
+
+
 def simple_alert(
     content: SafeString,
-    type: str = 'info',
+    type: AlertType = 'info',
+    close_button: bool = True,
 ):
     """
     Renders a simple alert box with the given content and optional prefix text.
@@ -37,5 +43,6 @@ def simple_alert(
         'alert_class': alert_class,
         'text_class': text_class,
         'icon_class': icon_class,
+        'close_button': close_button,
     }
     return render_to_string('django_sample_components/components/simple_alert.html', context)

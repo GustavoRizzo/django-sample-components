@@ -13,12 +13,13 @@ Requires **Font Awesome** (included in the library's master template).
 ## Signature
 
 ```
-{% simple_alert [type] %}...{% endsimple_alert %}
+{% simple_alert [type] [close_button] %}...{% endsimple_alert %}
 ```
 
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
 | `type` | `str` | No | `"info"` | Alert variant. Options: `"info"`, `"warning"`, `"danger"`, `"success"` |
+| `close_button` | `bool` | No | `True` | Whether to render the close button (`btn-close`). |
 
 ## Examples
 
@@ -37,6 +38,10 @@ Requires **Font Awesome** (included in the library's master template).
 
 {% simple_alert type="warning" %}
     This action cannot be undone.
+{% endsimple_alert %}
+
+{% simple_alert type="info" close_button=False %}
+    Informational alert without a close button.
 {% endsimple_alert %}
 ```
 
