@@ -38,7 +38,7 @@ poetry run task run-demo 8002
 # Run a single test
 cd demo_project && poetry run python manage.py test kernel.tests.test_loadpage.HomePageTests.test_home_page
 
-# Collect static files (required after changing CSS/JS/SVG)
+# Collect static files (production only — runserver serves them automatically in development)
 poetry run task collectstatic
 ```
 
@@ -95,7 +95,7 @@ demo_project/                   # Development/testing Django project
 
 **Component pattern:** Each component consists of a template tag in `templatetags/sample_tags/` (or `async_tags/`), a template in `templates/django_sample_components/components/`, and optionally a CSS file in `static/css/components/` linked via `<link>` inside the component template. Block tags pass rendered content + context to a component template via `django.template.loader.render_to_string`.
 
-**CSS co-location:** Each component that requires custom CSS has its own file in `static/css/components/` (e.g. `async_counter.css`). The `<link>` tag is placed inside the component template itself (not in the page template), so consumers automatically get the styles when they use the tag. Run `poetry run task collectstatic` after adding or changing CSS/JS/SVG files.
+**CSS co-location:** Each component that requires custom CSS has its own file in `static/css/components/` (e.g. `async_counter.css`). The `<link>` tag is placed inside the component template itself (not in the page template), so consumers automatically get the styles when they use the tag. Django's `runserver` serves static files directly from each app's `static/` directory — no `collectstatic` needed during development.
 
 **Template tag registration:** Tags are registered in `templatetags/sample_tags/__init__.py` (or `async_tags/__init__.py`) using Django's `register = template.Library()` pattern.
 

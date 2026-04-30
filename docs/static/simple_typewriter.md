@@ -20,7 +20,7 @@ A simple tag that renders an animated typewriter effect cycling through a list o
 
 ## Setup
 
-The component bundles its own CSS and JavaScript. No extra configuration is needed when using the library's base template. If you use your own base template, make sure `collectstatic` has been run so the files are available.
+The component bundles its own CSS and JavaScript. No extra configuration is needed — Django's development server serves static files automatically from installed apps. In production, run `python manage.py collectstatic` so your web server can serve the bundled files.
 
 ## Examples
 

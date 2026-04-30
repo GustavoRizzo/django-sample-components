@@ -47,11 +47,13 @@ urlpatterns = [
 ]
 ```
 
-Collect static files:
+In production, collect static files so your web server can serve them:
 
 ```bash
 python manage.py collectstatic
 ```
+
+> **Note:** This step is only required for production deployments. Django's development server (`runserver`) serves static files automatically from installed apps.
 
 
 ## Static Components
